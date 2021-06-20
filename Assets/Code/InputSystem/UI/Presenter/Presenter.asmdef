@@ -1,0 +1,18 @@
+{
+    "name": "Presenter",
+    "rootNamespace": "",
+    "references": [
+        "GUID:fc1f3f229d8f9104aa72a76814a343b1",
+        "GUID:0ef8feb5243587443b6413530b80903c",
+        "GUID:61e6017449569b4418d466b7e7d40c72"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
