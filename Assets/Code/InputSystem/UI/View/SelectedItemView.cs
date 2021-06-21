@@ -13,10 +13,7 @@ namespace InputSystem.UI.View
 
         public Sprite Icon
         {
-            set
-            {
-                _icon.sprite = value;
-            }
+            set => _icon.sprite = value;
         }
 
         public string Name
