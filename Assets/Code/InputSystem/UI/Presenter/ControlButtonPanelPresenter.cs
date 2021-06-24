@@ -4,6 +4,7 @@ using Abstractions;
 using InputSystem.UI.Model;
 using InputSystem.UI.View;
 using UnityEngine;
+using Utils;
 
 
 namespace InputSystem.UI.Presenter
@@ -13,16 +14,18 @@ namespace InputSystem.UI.Presenter
         [SerializeField] private SelectedItemModel _model;
         [SerializeField] private ControlButtonPanelView _view;
 
+        [SerializeField] private AssetsStorage _assets;
+
         private void Start()
         {
             _model.OnUpdated += SetButtons;
-            _view._onClick += ClickHandler;
+            _view.OnClick += ClickHandler;
             SetButtons();
         }
 
         private void OnDestroy()
         {
-            _view._onClick -= ClickHandler;
+            _view.OnClick -= ClickHandler;
             _model.OnUpdated -= SetButtons;
         }
 
@@ -30,14 +33,14 @@ namespace InputSystem.UI.Presenter
         {
             //TODO: исправить создание команд
             
-            executor.Execute(new ProduceUnitCommand(null));
+            executor.Execute(_assets.Inject(new ProduceUnitCommand()));
         }
 
         private void SetButtons()
         {
+            _view.ClearButtons();
             if (_model.Value == null)
             {
-                _view.ClearButtons();
                 return;
             }
 

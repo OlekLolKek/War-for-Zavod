@@ -2095,6 +2095,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _model: {fileID: 11400000, guid: a5e1523ac621de848ab8810c052fed0e, type: 2}
   _view: {fileID: 1539745764}
+  _assets: {fileID: 11400000, guid: 980aa1682db550941a9bdea4998fa8bd, type: 2}
 --- !u!114 &1539745764
 MonoBehaviour:
   m_ObjectHideFlags: 0

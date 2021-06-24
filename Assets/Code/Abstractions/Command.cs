@@ -1,15 +1,13 @@
+using JetBrains.Annotations;
 using UnityEngine;
+using Utils;
 
 
 namespace Abstractions
 {
     public class ProduceUnitCommand : IProduceUnitCommand
     {
-        public GameObject UnitPrefab { get; }
-
-        public ProduceUnitCommand(GameObject unitPrefab)
-        {
-            UnitPrefab = unitPrefab;
-        }
+        [UsedImplicitly] [InjectAsset("TestUnitPrefab")] private GameObject _unitPrefab;
+        public GameObject UnitPrefab => _unitPrefab;
     }
 }

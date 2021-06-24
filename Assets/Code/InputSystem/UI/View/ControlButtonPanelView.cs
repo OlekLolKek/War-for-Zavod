@@ -17,7 +17,7 @@ namespace InputSystem.UI.View
         [SerializeField] private Button _stopButton;
 
         private Dictionary<Type, Button> _executorsToButtons;
-        public event Action<ICommandExecutor> _onClick;
+        public event Action<ICommandExecutor> OnClick;
 
         private void Awake()
         {
@@ -46,7 +46,7 @@ namespace InputSystem.UI.View
                 }
                 
                 button.gameObject.SetActive(true);
-                button.onClick.AddListener(() => _onClick?.Invoke(executor));
+                button.onClick.AddListener(() => OnClick?.Invoke(executor));
             }
         }
 
