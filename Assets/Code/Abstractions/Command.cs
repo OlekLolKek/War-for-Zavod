@@ -7,8 +7,12 @@ namespace Abstractions
 {
     public class ProduceUnitCommand : IProduceUnitCommand
     {
-        [UsedImplicitly] [InjectAsset("TestUnitPrefab")] private GameObject _unitPrefab;
+        [UsedImplicitly] [InjectAsset("TestUnitPrefab")] protected GameObject _unitPrefab;
         public GameObject UnitPrefab => _unitPrefab;
+    }
+
+    public class ProduceUnitCommandHeir : ProduceUnitCommand
+    {
     }
 
     public class MoveCommand : IMoveCommand

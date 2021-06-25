@@ -1,4 +1,5 @@
 using System.Reflection;
+using UnityEngine;
 
 
 namespace Utils
@@ -9,10 +10,12 @@ namespace Utils
         {
             var targetType = target.GetType();
             var fields = targetType.GetFields(
-                BindingFlags.Public 
-                | BindingFlags.NonPublic 
-                | BindingFlags.Instance 
-                | BindingFlags.DeclaredOnly);
+                BindingFlags.Public
+                | BindingFlags.NonPublic
+                | BindingFlags.Instance
+                | BindingFlags.FlattenHierarchy);
+            
+            
             foreach (var field in fields)
             {
                 if (field.GetCustomAttribute(typeof(InjectAssetAttribute)) is InjectAssetAttribute injectAssetAttribute)
