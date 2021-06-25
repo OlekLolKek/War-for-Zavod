@@ -35,7 +35,7 @@ namespace InputSystem.UI.Presenter
 
             if (executor is BaseCommandExecutor<IProduceUnitCommand> produceUnitExecutor)
             {
-                produceUnitExecutor.Execute(_assets.Inject(new ProduceUnitCommandHeir()));
+                produceUnitExecutor.Execute(_assets.Inject(new ProduceUnitCommandTestHeir()));
             }
             else if (executor is BaseCommandExecutor<IMoveCommand> moveExecutor)
             {

@@ -9,20 +9,25 @@ namespace Utils
         public static T Inject<T>(this AssetsStorage storage, T target) where T : class
         {
             var targetType = target.GetType();
-            var fields = targetType.GetFields(
-                BindingFlags.Public
-                | BindingFlags.NonPublic
-                | BindingFlags.Instance
-                | BindingFlags.FlattenHierarchy);
-            
-            
-            foreach (var field in fields)
+
+            while (targetType != null)
             {
-                if (field.GetCustomAttribute(typeof(InjectAssetAttribute)) is InjectAssetAttribute injectAssetAttribute)
+                var fields = targetType.GetFields(
+                    BindingFlags.Public
+                    | BindingFlags.NonPublic
+                    | BindingFlags.Instance
+                    | BindingFlags.DeclaredOnly);
+
+                foreach (var field in fields)
                 {
-                    var asset = storage.GetAsset(injectAssetAttribute.AssetName);
-                    field.SetValue(target, asset);
+                    if (field.GetCustomAttribute(typeof(InjectAssetAttribute)) is InjectAssetAttribute injectAssetAttribute)
+                    {
+                        var asset = storage.GetAsset(injectAssetAttribute.AssetName);
+                        field.SetValue(target, asset);
+                    }
                 }
+
+                targetType = targetType.BaseType;
             }
 
             return target;
