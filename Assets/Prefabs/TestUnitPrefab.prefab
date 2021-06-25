@@ -12,6 +12,11 @@ GameObject:
   - component: {fileID: 8984757391562854975}
   - component: {fileID: 2711842718495500486}
   - component: {fileID: 6647401118490778372}
+  - component: {fileID: 54198298021937201}
+  - component: {fileID: 3694126670785197302}
+  - component: {fileID: 142615981681014308}
+  - component: {fileID: 5297550959515537429}
+  - component: {fileID: 182360534494807431}
   m_Layer: 0
   m_Name: TestUnitPrefab
   m_TagString: Untagged
@@ -95,3 +100,68 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &54198298021937201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426762781393767029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a502fd96e2084f24ba95840e40ca1711, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  _selectionCircleOffset: {x: 0, y: 0.1, z: 0}
+  _name: Scav
+  _maxHealth: 50
+  _health: 50
+--- !u!114 &3694126670785197302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426762781393767029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 386cf275377c4daaa2f9ef2e9a3cce78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &142615981681014308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426762781393767029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 071bf06f85864910bfdf2b2d268d6a82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5297550959515537429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426762781393767029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8310fe8fcb964544be1c6d9cc7c28488, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &182360534494807431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426762781393767029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5da161e4f92c49bfa8a5962182bb3623, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -10,4 +10,24 @@ namespace Abstractions
         [UsedImplicitly] [InjectAsset("TestUnitPrefab")] private GameObject _unitPrefab;
         public GameObject UnitPrefab => _unitPrefab;
     }
+
+    public class MoveCommand : IMoveCommand
+    {
+        public Vector3 To { get; }
+    }
+    
+    public class AttackCommand : IAttackCommand
+    {
+        public GameObject Target { get; }
+    }
+    
+    public class PatrolCommand : IPatrolCommand
+    {
+        public Vector3 From { get; }
+        public Vector3 To { get; }
+    }
+
+    public class StopCommand : IStopCommand
+    {
+    }
 }

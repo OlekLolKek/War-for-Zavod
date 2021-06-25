@@ -32,8 +32,31 @@ namespace InputSystem.UI.Presenter
         private void ClickHandler(ICommandExecutor executor)
         {
             //TODO: исправить создание команд
-            
-            executor.Execute(_assets.Inject(new ProduceUnitCommand()));
+
+            if (executor is BaseCommandExecutor<IProduceUnitCommand> produceUnitExecutor)
+            {
+                produceUnitExecutor.Execute(_assets.Inject(new ProduceUnitCommand()));
+            }
+            else if (executor is BaseCommandExecutor<IMoveCommand> moveExecutor)
+            {
+                moveExecutor.Execute(_assets.Inject(new MoveCommand()));
+            }
+            else if (executor is BaseCommandExecutor<IAttackCommand> attackExecutor)
+            {
+                attackExecutor.Execute(_assets.Inject(new AttackCommand()));
+            }
+            else if (executor is BaseCommandExecutor<IPatrolCommand> patrolExecutor)
+            {
+                patrolExecutor.Execute(_assets.Inject(new PatrolCommand()));
+            }
+            else if (executor is BaseCommandExecutor<IStopCommand> stopExecutor)
+            {
+                stopExecutor.Execute(_assets.Inject(new StopCommand()));
+            }
+            else
+            {
+                Debug.LogError($"{executor.GetType()} is not supported.");
+            }
         }
 
         private void SetButtons()
