@@ -1062,6 +1062,7 @@ GameObject:
   - component: {fileID: 623500115}
   - component: {fileID: 623500114}
   - component: {fileID: 623500119}
+  - component: {fileID: 623500120}
   m_Layer: 0
   m_Name: Molot
   m_TagString: Untagged
@@ -1174,6 +1175,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0a01d004cd04138be72f6a19cbc1d9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &623500120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623500113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 791bdde11e0245b48c0b02031bb6a5e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _renderers:
+  - {fileID: 623500116}
+  _outlineMaterial: {fileID: 2100000, guid: d7dfc579f89922841a68bdb4f1ccd279, type: 2}
 --- !u!1 &632659488
 GameObject:
   m_ObjectHideFlags: 0
@@ -1849,6 +1865,7 @@ GameObject:
   - component: {fileID: 1285683887}
   - component: {fileID: 1285683888}
   - component: {fileID: 1285683892}
+  - component: {fileID: 1285683893}
   m_Layer: 0
   m_Name: Ubilla
   m_TagString: Untagged
@@ -1962,6 +1979,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0a01d004cd04138be72f6a19cbc1d9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1285683893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1285683886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 791bdde11e0245b48c0b02031bb6a5e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _renderers:
+  - {fileID: 1285683889}
+  _outlineMaterial: {fileID: 2100000, guid: d7dfc579f89922841a68bdb4f1ccd279, type: 2}
 --- !u!1 &1395366305
 GameObject:
   m_ObjectHideFlags: 0
@@ -2759,6 +2791,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1904306380}
   - component: {fileID: 1904306379}
+  - component: {fileID: 1904306381}
   m_Layer: 0
   m_Name: InputController
   m_TagString: Untagged
@@ -2794,6 +2827,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1904306381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1904306378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34d99cd952e040dba91672820b0dcfb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _model: {fileID: 11400000, guid: a5e1523ac621de848ab8810c052fed0e, type: 2}
 --- !u!1 &2107790218
 GameObject:
   m_ObjectHideFlags: 0
