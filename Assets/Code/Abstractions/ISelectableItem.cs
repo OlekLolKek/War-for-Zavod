@@ -6,7 +6,7 @@ namespace Abstractions
     public interface ISelectableItem
     {
         Sprite Icon { get; }
-        GameObject GameObject { get; }
+        Transform SelectionParentTransform { get; }
         Vector3 SelectionCircleOffset { get; }
         string Name { get; }
         float Health { get; }

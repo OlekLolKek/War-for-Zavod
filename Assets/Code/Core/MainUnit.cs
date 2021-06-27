@@ -13,7 +13,7 @@ namespace Core
         [SerializeField] private float _health;
 
         public Sprite Icon => _icon;
-        public GameObject GameObject => gameObject;
+        public Transform SelectionParentTransform => transform;
         public Vector3 SelectionCircleOffset => _selectionCircleOffset;
         public string Name => _name;
         public float MaxHealth => _maxHealth;
