@@ -27,10 +27,12 @@ namespace InputSystem.UI.Presenter
             if (_model.Value == null)
             {
                 _view.gameObject.SetActive(false);
+                _view.transform.parent.gameObject.SetActive(false);
                 return;
             }
 
             _view.gameObject.SetActive(true);
+            _view.transform.parent.gameObject.SetActive(true);
             _view.Icon = _model.Value.Icon;
             _view.Name = _model.Value.Name;
             _view.Health =$"Health: {_model.Value.Health} / {_model.Value.MaxHealth}";

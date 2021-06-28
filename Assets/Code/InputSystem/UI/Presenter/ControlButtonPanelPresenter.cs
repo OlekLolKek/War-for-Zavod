@@ -16,7 +16,6 @@ namespace InputSystem.UI.Presenter
         [SerializeField] private ControlButtonPanelView _view;
 
         [Inject] private ControlButtonPanel _controlButtonPanelModel;
-        [Inject] private AssetsStorage _assets;
 
         private void Start()
         {
@@ -33,8 +32,6 @@ namespace InputSystem.UI.Presenter
 
         private void ClickHandler(ICommandExecutor executor)
         {
-            //TODO: исправить создание команд
-
             _controlButtonPanelModel.HandleClick(executor);
         }
 

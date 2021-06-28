@@ -22,6 +22,11 @@ namespace Abstractions
     public class MoveCommand : IMoveCommand
     {
         public Vector3 To { get; }
+
+        public MoveCommand(Vector3 to)
+        {
+            To = to;
+        }
     }
     
     public class AttackCommand : IAttackCommand
