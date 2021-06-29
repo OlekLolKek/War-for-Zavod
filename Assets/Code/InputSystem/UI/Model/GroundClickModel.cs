@@ -6,17 +6,7 @@ using UnityEngine;
 namespace InputSystem.UI.Model
 {
     [CreateAssetMenu(fileName = nameof(GroundClickModel), menuName = "Strategy/" + nameof(GroundClickModel))]
-    public class GroundClickModel : ScriptableObject
+    public class GroundClickModel : BaseDataModel<Vector3>
     {
-        private Vector3 _value;
-        public Vector3 Value => _value;
-
-        public void SetValue(Vector3 value)
-        {
-            _value = value;
-            OnUpdated?.Invoke();
-        }
-        
-        public event Action OnUpdated;
     }
 }
