@@ -32,7 +32,7 @@ namespace InputSystem.UI.Model
     public class MoveCommandCreator : CommandCreator<IMoveCommand>
     {
         private Action<IMoveCommand> _onCreated;
-        private GroundClickModel _currentGroundClick;
+        private readonly GroundClickModel _currentGroundClick;
 
         [Inject]
         public MoveCommandCreator(GroundClickModel currentGroundClick)
@@ -56,6 +56,7 @@ namespace InputSystem.UI.Model
     {
         protected override void CreateSpecificCommand(Action<IAttackCommand> onCreated)
         {
+            onCreated?.Invoke(new AttackCommand());
         }
     }
     
@@ -63,6 +64,7 @@ namespace InputSystem.UI.Model
     {
         protected override void CreateSpecificCommand(Action<IPatrolCommand> onCreated)
         {
+            onCreated?.Invoke(new PatrolCommand());
         }
     }
     
@@ -70,7 +72,7 @@ namespace InputSystem.UI.Model
     {
         protected override void CreateSpecificCommand(Action<IStopCommand> onCreated)
         {
-            
+            onCreated?.Invoke(new StopCommand());
         }
     }
 }
