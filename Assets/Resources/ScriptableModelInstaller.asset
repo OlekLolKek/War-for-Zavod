@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9948c2679601430a97b2e8ad971c9049, type: 3}
+  m_Name: ScriptableModelInstaller
+  m_EditorClassIdentifier: 
+  _assetsStorage: {fileID: 11400000, guid: 980aa1682db550941a9bdea4998fa8bd, type: 2}
+  _groundClickModel: {fileID: 11400000, guid: b41a6cb9ab5f1234499bd5e95bd5be5a, type: 2}

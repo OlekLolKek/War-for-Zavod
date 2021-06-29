@@ -1,4 +1,5 @@
 using Abstractions;
+using JetBrains.Annotations;
 using UnityEngine;
 using Utils;
 using Zenject;
@@ -6,6 +7,7 @@ using Zenject;
 
 namespace InputSystem.UI.Model
 {
+    [UsedImplicitly]
     public class ControlButtonPanel
     {
         [Inject] private CommandCreator<IProduceUnitCommand> _produceUnitCommandCreator;

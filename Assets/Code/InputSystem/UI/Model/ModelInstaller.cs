@@ -8,13 +8,8 @@ namespace InputSystem.UI.Model
 {
     public class ModelInstaller : MonoInstaller
     {
-        [SerializeField] private AssetsStorage _assetsStorage;
-        [SerializeField] private GroundClickModel _groundClickModel;
-        
         public override void InstallBindings()
         {
-            Container.Bind<AssetsStorage>().FromInstance(_assetsStorage).AsSingle();
-            Container.Bind<GroundClickModel>().FromInstance(_groundClickModel).AsSingle();
             Container.Bind<ControlButtonPanel>().AsSingle();
             
             Container.Bind<CommandCreator<IProduceUnitCommand>>().To<ProduceUnitCommandCreator>().AsSingle();
