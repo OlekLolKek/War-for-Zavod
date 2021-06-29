@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _assetsStorage: {fileID: 11400000, guid: 980aa1682db550941a9bdea4998fa8bd, type: 2}
   _groundClickModel: {fileID: 11400000, guid: b41a6cb9ab5f1234499bd5e95bd5be5a, type: 2}
+  _selectedItemModel: {fileID: 11400000, guid: a5e1523ac621de848ab8810c052fed0e, type: 2}

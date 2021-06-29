@@ -1,5 +1,6 @@
 using System;
 using Abstractions;
+using UnityEngine;
 using Utils;
 using Zenject;
 
@@ -54,17 +55,59 @@ namespace InputSystem.UI.Model
     
     public class AttackCommandCreator : CommandCreator<IAttackCommand>
     {
+        private Action<IAttackCommand> _onCreated;
+        private readonly SelectedItemModel _currentSelectedItem;
+
+        [Inject]
+        public AttackCommandCreator(SelectedItemModel currentSelectedItem)
+        {
+            _currentSelectedItem = currentSelectedItem;
+            _currentSelectedItem.OnUpdated += HandleItemSelection;
+        }
+
+        private void HandleItemSelection()
+        {
+            _onCreated?.Invoke(new AttackCommand(_currentSelectedItem.Value));
+        }
+        
         protected override void CreateSpecificCommand(Action<IAttackCommand> onCreated)
         {
-            onCreated?.Invoke(new AttackCommand());
+            _onCreated = onCreated;
         }
     }
     
     public class PatrolCommandCreator : CommandCreator<IPatrolCommand>
     {
+        private Action<IPatrolCommand> _onCreated;
+        private readonly GroundClickModel _currentGroundClick;
+        private Vector3 _firstClick;
+        private Vector3 _secondClick;
+
+        [Inject]
+        public PatrolCommandCreator(GroundClickModel currentGroundClick)
+        {
+            _currentGroundClick = currentGroundClick;
+            _currentGroundClick.OnUpdated += HandleGroundClick;
+        }
+
+        private void HandleGroundClick()
+        {
+            if (_firstClick == Vector3.zero)
+            {
+                _firstClick = _currentGroundClick.Value;
+            }
+            else if (_secondClick == Vector3.zero)
+            {
+                _secondClick = _currentGroundClick.Value;
+                _onCreated?.Invoke(new PatrolCommand(_firstClick, _secondClick));
+                _firstClick = Vector3.zero;
+                _secondClick = Vector3.zero;
+            }
+        }
+        
         protected override void CreateSpecificCommand(Action<IPatrolCommand> onCreated)
         {
-            onCreated?.Invoke(new PatrolCommand());
+            _onCreated = onCreated;
         }
     }
     

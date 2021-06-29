@@ -156,6 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8310fe8fcb964544be1c6d9cc7c28488, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _agent: {fileID: -3936520930414883976}
 --- !u!114 &182360534494807431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,6 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5da161e4f92c49bfa8a5962182bb3623, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _navMeshAgent: {fileID: -3936520930414883976}
 --- !u!114 &6000127814980514341
 MonoBehaviour:
   m_ObjectHideFlags: 0

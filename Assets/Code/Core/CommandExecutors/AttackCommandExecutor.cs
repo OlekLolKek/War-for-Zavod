@@ -8,7 +8,14 @@ namespace DefaultNamespace.CommandExecutors
     {
         protected override void ExecuteSpecificCommand(IAttackCommand command)
         {
-            Debug.Log("Unit attacked");
+            if (command.Target != null)
+            {
+                Debug.Log($"{command.Target} attacked.");
+            }
+            else
+            {
+                Debug.Log("You didn't select an enemy.");
+            }
         }
     }
 }
