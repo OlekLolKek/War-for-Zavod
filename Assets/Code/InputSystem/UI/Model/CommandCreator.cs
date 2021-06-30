@@ -32,24 +32,12 @@ namespace InputSystem.UI.Model
     
     public class MoveCommandCreator : CommandCreator<IMoveCommand>
     {
-        private Action<IMoveCommand> _onCreated;
-        private readonly GroundClickModel _currentGroundClick;
+        [Inject] private readonly GroundClickModel _currentGroundClick;
 
-        [Inject]
-        public MoveCommandCreator(GroundClickModel currentGroundClick)
+        protected override async void CreateSpecificCommand(Action<IMoveCommand> onCreated)
         {
-            _currentGroundClick = currentGroundClick;
-            _currentGroundClick.OnUpdated += HandleGroundClick;
-        }
-
-        private void HandleGroundClick()
-        {
-            _onCreated?.Invoke(new MoveCommand(_currentGroundClick.Value));
-        }
-        
-        protected override void CreateSpecificCommand(Action<IMoveCommand> onCreated)
-        {
-            _onCreated = onCreated;
+            var nextClick = await _currentGroundClick;
+            onCreated?.Invoke(new MoveCommand(nextClick));
         }
     }
     
