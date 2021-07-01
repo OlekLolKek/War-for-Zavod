@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using Abstractions;
 using UnityEngine;
 using Utils;
@@ -18,92 +19,89 @@ namespace InputSystem.UI.Model
         }
 
         protected abstract void CreateSpecificCommand(Action<T> onCreated);
+        public abstract void CancelCommand();
+    }
+
+    public abstract class CancelableCommandCreator<T, TParam> : CommandCreator<T> where T : ICommand
+    {
+        private CancellationTokenSource _tokenSource;
+        [Inject] private IAwaitable<TParam> _param;
+
+        protected override async void CreateSpecificCommand(Action<T> onCreated)
+        {
+            _tokenSource = new CancellationTokenSource();
+            try
+            {
+                var paramResult = await _param.AsTask().WithCancellation(_tokenSource.Token);
+                onCreated?.Invoke(GetCommand(paramResult));
+            }
+            catch (OperationCanceledException e)
+            {
+                Debug.Log("Operation Cancelled");
+            }
+        }
+
+        protected abstract T GetCommand(TParam param);
+
+        public override void CancelCommand()
+        {
+            if (_tokenSource != null)
+            {
+                _tokenSource.Cancel();
+                _tokenSource.Dispose();
+                _tokenSource = null;
+            }
+        }
     }
 
     public class ProduceUnitCommandCreator : CommandCreator<IProduceUnitCommand>
     {
         [Inject] private AssetsStorage _assetsStorage;
-        
+
         protected override void CreateSpecificCommand(Action<IProduceUnitCommand> onCreated)
         {
             onCreated?.Invoke(_assetsStorage.Inject(new ProduceUnitCommand()));
         }
+
+        public override void CancelCommand()
+        {
+        }
     }
-    
-    public class MoveCommandCreator : CommandCreator<IMoveCommand>
+
+    public class MoveCommandCreator : CancelableCommandCreator<IMoveCommand, Vector3>
     {
-        [Inject] private readonly GroundClickModel _currentGroundClick;
-
-        protected override async void CreateSpecificCommand(Action<IMoveCommand> onCreated)
+        protected override IMoveCommand GetCommand(Vector3 param)
         {
-            var nextClick = await _currentGroundClick;
-            onCreated?.Invoke(new MoveCommand(nextClick));
+            return new MoveCommand(param);
         }
     }
-    
-    public class AttackCommandCreator : CommandCreator<IAttackCommand>
+
+    public class AttackCommandCreator : CancelableCommandCreator<IAttackCommand, ISelectableItem>
     {
-        private Action<IAttackCommand> _onCreated;
-        private readonly SelectedItemModel _currentSelectedItem;
-
-        [Inject]
-        public AttackCommandCreator(SelectedItemModel currentSelectedItem)
+        protected override IAttackCommand GetCommand(ISelectableItem param)
         {
-            _currentSelectedItem = currentSelectedItem;
-            _currentSelectedItem.OnUpdated += HandleItemSelection;
-        }
-
-        private void HandleItemSelection()
-        {
-            _onCreated?.Invoke(new AttackCommand(_currentSelectedItem.Value));
-        }
-        
-        protected override void CreateSpecificCommand(Action<IAttackCommand> onCreated)
-        {
-            _onCreated = onCreated;
+            return new AttackCommand(param);
         }
     }
-    
-    public class PatrolCommandCreator : CommandCreator<IPatrolCommand>
+
+    public class PatrolCommandCreator : CancelableCommandCreator<IPatrolCommand, Vector3>
     {
-        private Action<IPatrolCommand> _onCreated;
-        private readonly GroundClickModel _currentGroundClick;
-        private Vector3 _firstClick;
-        private Vector3 _secondClick;
-
-        [Inject]
-        public PatrolCommandCreator(GroundClickModel currentGroundClick)
+        [Inject] private SelectedItemModel _selectedItem;
+        protected override IPatrolCommand GetCommand(Vector3 param)
         {
-            _currentGroundClick = currentGroundClick;
-            _currentGroundClick.OnUpdated += HandleGroundClick;
-        }
-
-        private void HandleGroundClick()
-        {
-            if (_firstClick == Vector3.zero)
-            {
-                _firstClick = _currentGroundClick.Value;
-            }
-            else if (_secondClick == Vector3.zero)
-            {
-                _secondClick = _currentGroundClick.Value;
-                _onCreated?.Invoke(new PatrolCommand(_firstClick, _secondClick));
-                _firstClick = Vector3.zero;
-                _secondClick = Vector3.zero;
-            }
-        }
-        
-        protected override void CreateSpecificCommand(Action<IPatrolCommand> onCreated)
-        {
-            _onCreated = onCreated;
+            return new PatrolCommand(_selectedItem.Value.SelectionParentTransform.position, param);
         }
     }
-    
+
     public class StopCommandCreator : CommandCreator<IStopCommand>
     {
         protected override void CreateSpecificCommand(Action<IStopCommand> onCreated)
         {
             onCreated?.Invoke(new StopCommand());
+        }
+
+        public override void CancelCommand()
+        {
         }
     }
 }

@@ -11,7 +11,7 @@ namespace InputSystem.UI.Model
         public override void InstallBindings()
         {
             Container.Bind<ControlButtonPanel>().AsSingle();
-            
+
             Container.Bind<CommandCreator<IProduceUnitCommand>>().To<ProduceUnitCommandCreator>().AsSingle();
             Container.Bind<CommandCreator<IMoveCommand>>().To<MoveCommandCreator>().AsSingle();
             Container.Bind<CommandCreator<IAttackCommand>>().To<AttackCommandCreator>().AsSingle();

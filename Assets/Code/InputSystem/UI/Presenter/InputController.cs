@@ -31,8 +31,8 @@ namespace InputSystem.UI.Presenter
                     }
                     else
                     {
-                        _currentSelected.SetValue(null);
                         _groundClickModel.SetValue(hitInfo.point);
+                        _currentSelected.SetValue(null);
                     }
                 }
             }

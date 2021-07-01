@@ -16,13 +16,39 @@ namespace InputSystem.UI.Model
         [Inject] private CommandCreator<IPatrolCommand> _patrolCommandCreator;
         [Inject] private CommandCreator<IStopCommand> _stopCommandCreator;
 
+        private bool _isPending;
+
         public void HandleClick(ICommandExecutor executor)
         {
-            _produceUnitCommandCreator.CreateCommand(executor, executor.Execute);
-            _moveCommandCreator.CreateCommand(executor, executor.Execute);
-            _moveUnitCommandCreator.CreateCommand(executor, executor.Execute);
-            _patrolCommandCreator.CreateCommand(executor, executor.Execute);
-            _stopCommandCreator.CreateCommand(executor, executor.Execute);
+            _isPending = true;
+            
+            _produceUnitCommandCreator.CreateCommand(executor, command => ExecuteCommand(executor, command));
+            _moveCommandCreator.CreateCommand(executor, command => ExecuteCommand(executor, command));
+            _moveUnitCommandCreator.CreateCommand(executor, command => ExecuteCommand(executor, command));
+            _patrolCommandCreator.CreateCommand(executor, command => ExecuteCommand(executor, command));
+            _stopCommandCreator.CreateCommand(executor, command => ExecuteCommand(executor, command));
+        }
+
+        private void ExecuteCommand(ICommandExecutor executor, ICommand command)
+        {
+            _isPending = false;
+            executor.Execute(command);
+        }
+
+        public void HandleSelectionChanged()
+        {
+            if (!_isPending)
+            {
+                return;
+            }
+            
+            _isPending = false;
+            
+            _produceUnitCommandCreator.CancelCommand();
+            _moveCommandCreator.CancelCommand();
+            _moveUnitCommandCreator.CancelCommand();
+            _patrolCommandCreator.CancelCommand();
+            _stopCommandCreator.CancelCommand();
         }
     }
 }

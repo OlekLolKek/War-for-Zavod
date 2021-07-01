@@ -10,15 +10,7 @@ namespace Abstractions
         [UsedImplicitly] [InjectAsset("TestUnitPrefab")] private GameObject _unitPrefab;
         public GameObject UnitPrefab => _unitPrefab;
     }
-
-    public class ProduceUnitCommandHeir : ProduceUnitCommand
-    {
-    }
     
-    public class ProduceUnitCommandTestHeir : ProduceUnitCommandHeir
-    {
-    }
-
     public class MoveCommand : IMoveCommand
     {
         public Vector3 To { get; }
