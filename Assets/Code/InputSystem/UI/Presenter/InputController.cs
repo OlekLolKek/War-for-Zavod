@@ -36,14 +36,6 @@ namespace InputSystem.UI.Presenter
                     }
                 }
             }
-
-            // if (Input.GetMouseButtonDown(1))
-            // {
-            //     if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out var hitInfo))
-            //     {
-            //         _groundClickModel.SetValue(hitInfo.point);
-            //     }
-            // }
         }
     }
 }

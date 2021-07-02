@@ -11,7 +11,7 @@ namespace InputSystem.UI.Model
     public class ControlButtonPanel
     {
         [Inject] private CommandCreator<IProduceUnitCommand> _produceUnitCommandCreator;
-        [Inject] private CommandCreator<IAttackCommand> _moveCommandCreator;
+        [Inject] private CommandCreator<IAttackCommand> _attackCommandCreator;
         [Inject] private CommandCreator<IMoveCommand> _moveUnitCommandCreator;
         [Inject] private CommandCreator<IPatrolCommand> _patrolCommandCreator;
         [Inject] private CommandCreator<IStopCommand> _stopCommandCreator;
@@ -23,7 +23,7 @@ namespace InputSystem.UI.Model
             _isPending = true;
             
             _produceUnitCommandCreator.CreateCommand(executor, command => ExecuteCommand(executor, command));
-            _moveCommandCreator.CreateCommand(executor, command => ExecuteCommand(executor, command));
+            _attackCommandCreator.CreateCommand(executor, command => ExecuteCommand(executor, command));
             _moveUnitCommandCreator.CreateCommand(executor, command => ExecuteCommand(executor, command));
             _patrolCommandCreator.CreateCommand(executor, command => ExecuteCommand(executor, command));
             _stopCommandCreator.CreateCommand(executor, command => ExecuteCommand(executor, command));
@@ -45,7 +45,7 @@ namespace InputSystem.UI.Model
             _isPending = false;
             
             _produceUnitCommandCreator.CancelCommand();
-            _moveCommandCreator.CancelCommand();
+            //_attackCommandCreator.CancelCommand();
             _moveUnitCommandCreator.CancelCommand();
             _patrolCommandCreator.CancelCommand();
             _stopCommandCreator.CancelCommand();

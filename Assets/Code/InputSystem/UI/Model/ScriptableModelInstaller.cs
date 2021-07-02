@@ -21,7 +21,7 @@ namespace InputSystem.UI.Model
             Container.Bind<SelectedItemModel>().FromInstance(_selectedItemModel).AsSingle();
             
             Container.Bind<IAwaitable<Vector3>>().FromInstance(_groundClickModel).AsSingle();
-            Container.Bind<IAwaitable<ISelectableItem>>().FromInstance(_dummyTarget).AsSingle();
+            Container.Bind<IAwaitable<ISelectableItem>>().FromInstance(_selectedItemModel).AsSingle();
         }
     }
 }
