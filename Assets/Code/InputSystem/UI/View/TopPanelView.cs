@@ -1,3 +1,5 @@
+using System;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +16,6 @@ namespace InputSystem.UI.View
             set => _timeText.text = value;
         }
         
-        public Button MenuButton => _menuButton;
+        public IObservable<Unit> MenuButton => _menuButton.OnClickAsObservable();
     }
 }

@@ -11,19 +11,20 @@ namespace InputSystem.UI.Presenter
     public class TopPanelPresenter : MonoBehaviour
     {
         [SerializeField] private TopPanelView _view;
+        [SerializeField] private GameObject _menu;
         [Inject] private ITimeModel _timeModel;
         
         private void Awake()
         {
-            _view.MenuButton.OnClickAsObservable().Subscribe(unit => HandleMenuButtonClick());
+            _view.MenuButton.Subscribe(unit => HandleMenuButtonClick());
 
             _timeModel.GameTime.Subscribe(time => _view.TimeText = TimeSpan.FromSeconds(time).ToString());
         }
 
         private void HandleMenuButtonClick()
         {
-            // menu show
-            Debug.Log("Show menu");
+            _menu.gameObject.SetActive(true);
+            _timeModel.Pause();
         }
     }
 }

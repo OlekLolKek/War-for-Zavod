@@ -1,3 +1,5 @@
+using System;
+using UniRx;
 using UnityEngine;
 
 
@@ -9,7 +11,7 @@ namespace Abstractions
         Transform SelectionParentTransform { get; }
         Vector3 SelectionCircleOffset { get; }
         string Name { get; }
-        float Health { get; }
+        IObservable<float> Health { get; }
         float MaxHealth { get; }
     }
 }

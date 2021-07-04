@@ -12,10 +12,25 @@ namespace Core
         public IObservable<int> GameTime => _gameTime.Select(value => (int)value);
 
         private ReactiveProperty<float> _gameTime = new ReactiveProperty<float>();
+
+        private bool _isPaused;
         
         public void Tick()
         {
-            _gameTime.Value += Time.deltaTime;
+            if (!_isPaused)
+            {
+                _gameTime.Value += Time.deltaTime;
+            }
+        }
+
+        public void Pause()
+        {
+            _isPaused = true;
+        }
+
+        public void Unpause()
+        {
+            _isPaused = false;
         }
     }
 }
