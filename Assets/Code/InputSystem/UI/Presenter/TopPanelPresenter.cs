@@ -18,7 +18,8 @@ namespace InputSystem.UI.Presenter
         {
             _view.MenuButton.Subscribe(unit => HandleMenuButtonClick());
 
-            _timeModel.GameTime.Subscribe(time => _view.TimeText = TimeSpan.FromSeconds(time).ToString());
+            _timeModel.GameTime.Subscribe(
+                time => _view.TimeText = TimeSpan.FromSeconds(time).ToString());
         }
 
         private void HandleMenuButtonClick()

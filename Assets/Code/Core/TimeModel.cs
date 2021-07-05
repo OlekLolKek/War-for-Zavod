@@ -1,5 +1,6 @@
 using System;
 using Abstractions;
+using JetBrains.Annotations;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -7,30 +8,31 @@ using Zenject;
 
 namespace Core
 {
+    [UsedImplicitly]
     public class TimeModel : ITimeModel, ITickable
     {
         public IObservable<int> GameTime => _gameTime.Select(value => (int)value);
 
-        private ReactiveProperty<float> _gameTime = new ReactiveProperty<float>();
+        private readonly ReactiveProperty<float> _gameTime = new ReactiveProperty<float>();
 
         private bool _isPaused;
+
+        private readonly float _normalTimeScale = 1.0f;
+        private readonly float _pausedTimeScale = 0.0f;
         
         public void Tick()
         {
-            if (!_isPaused)
-            {
-                _gameTime.Value += Time.deltaTime;
-            }
+            _gameTime.Value += Time.deltaTime;
         }
 
         public void Pause()
         {
-            _isPaused = true;
+            Time.timeScale = _pausedTimeScale;
         }
 
         public void Unpause()
         {
-            _isPaused = false;
+            Time.timeScale = _normalTimeScale;
         }
     }
 }
