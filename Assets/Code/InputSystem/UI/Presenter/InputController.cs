@@ -1,5 +1,7 @@
+using System;
 using Abstractions;
 using InputSystem.UI.Model;
+using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -13,27 +15,26 @@ namespace InputSystem.UI.Presenter
         [SerializeField] private SelectedItemModel _currentSelected;
         [SerializeField] private GroundClickModel _groundClickModel;
 
-        public void Update()
+        private void Start()
         {
-            if (_eventSystem.IsPointerOverGameObject())
+            var clickStream = Observable.EveryUpdate()
+                    .Where(_ => !_eventSystem.IsPointerOverGameObject() && Input.GetMouseButtonDown(0));
+            clickStream.Subscribe(onNext => MousePointerRaycast());
+        }
+
+        private void MousePointerRaycast()
+        {
+            if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out var hitInfo))
             {
-                return;
-            }
-            
-            if (Input.GetMouseButtonDown(0))
-            {
-                if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out var hitInfo))
+                var selectableItem = hitInfo.collider.gameObject.GetComponent<ISelectableItem>();
+                if (selectableItem != null)
                 {
-                    var selectableItem = hitInfo.collider.gameObject.GetComponent<ISelectableItem>();
-                    if (selectableItem != null)
-                    {
-                        _currentSelected.SetValue(selectableItem);
-                    }
-                    else
-                    {
-                        _groundClickModel.SetValue(hitInfo.point);
-                        _currentSelected.SetValue(null);
-                    }
+                    _currentSelected.SetValue(selectableItem);
+                }
+                else
+                {
+                    _groundClickModel.SetValue(hitInfo.point);
+                    _currentSelected.SetValue(null);
                 }
             }
         }
