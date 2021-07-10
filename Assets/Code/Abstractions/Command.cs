@@ -1,6 +1,7 @@
 using JetBrains.Annotations;
 using UnityEngine;
 using Utils;
+using Zenject;
 
 
 namespace Abstractions
@@ -8,6 +9,10 @@ namespace Abstractions
     public class ProduceUnitCommand : IProduceUnitCommand
     {
         [UsedImplicitly] [InjectAsset("TestUnitPrefab")] private GameObject _unitPrefab;
+        [Inject (Id = "TestUnitProductionTime")] public int ProductionTime { get; }
+        [Inject (Id = "TestUnitName")] public string UnitName { get; }
+        //[Inject (Id = "TestUnitIcon")] 
+        public Sprite UnitIcon { get; }
         public GameObject UnitPrefab => _unitPrefab;
     }
     

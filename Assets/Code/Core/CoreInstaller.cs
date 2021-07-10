@@ -1,3 +1,4 @@
+using DefaultNamespace.CommandExecutors;
 using Zenject;
 
 
@@ -8,6 +9,7 @@ namespace Core
         public override void InstallBindings()
         {
             Container.BindInterfacesAndSelfTo<TimeModel>().AsSingle();
+            Container.BindInterfacesAndSelfTo<ProduceUnitCommandExecutor>().FromComponentsInHierarchy().AsSingle();
         }
     }
 }

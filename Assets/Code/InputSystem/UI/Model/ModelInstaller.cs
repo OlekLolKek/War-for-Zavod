@@ -17,6 +17,11 @@ namespace InputSystem.UI.Model
             Container.Bind<CommandCreator<IAttackCommand>>().To<AttackCommandCreator>().AsSingle();
             Container.Bind<CommandCreator<IPatrolCommand>>().To<PatrolCommandCreator>().AsSingle();
             Container.Bind<CommandCreator<IStopCommand>>().To<StopCommandCreator>().AsSingle();
+
+            //Container.Bind<DiContainer>().FromInstance(Container);
+            Container.Bind<int>().WithId("TestUnitProductionTime").FromInstance(3);
+            Container.Bind<string>().WithId("TestUnitName").FromInstance("Test Unit");
+            //Container.Bind<Sprite>().WithId("TestUnitIcon");
         }
     }
 }
