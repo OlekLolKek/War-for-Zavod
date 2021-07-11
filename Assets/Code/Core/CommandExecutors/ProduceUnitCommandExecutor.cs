@@ -8,21 +8,21 @@ using Zenject;
 
 namespace DefaultNamespace.CommandExecutors
 {
-    public class ProduceUnitCommandExecutor : BaseCommandExecutor<IProduceUnitCommand>, ITickable
+    public class ProduceUnitCommandExecutor : BaseCommandExecutor<IProduceUnitCommand>, ITickable, IProductionTaskWorker
     {
-        private ReactiveCollection<ProductionTask> _productionQueue = new ReactiveCollection<ProductionTask>();
+        public IReadOnlyReactiveCollection<IProductionTask> ProductionQueue => _productionQueue;
+        private readonly ReactiveCollection<IProductionTask> _productionQueue = new ReactiveCollection<IProductionTask>();
         
         protected override void ExecuteSpecificCommand(IProduceUnitCommand command)
         {
             Debug.Log("Unit produced");
             var newTask = new ProductionTask(command.ProductionTime, command.UnitName, command.UnitIcon, command.UnitPrefab);
-            Debug.Log(newTask.ProductionTime);
             _productionQueue.Add(newTask);
         }
 
         private void CreateUnit(ProductionTask task)
         {
-            _productionQueue.RemoveAt(0);
+            _productionQueue.Remove(task);
             Instantiate(task.UnitPrefab, transform.position + Vector3.forward * 2, Quaternion.identity);
         }
 
@@ -33,7 +33,7 @@ namespace DefaultNamespace.CommandExecutors
                 return;
             }
 
-            var currentTask = _productionQueue.First();
+            var currentTask = (ProductionTask)ProductionQueue.First();
 
             if (currentTask.IsEnded())
             {
@@ -42,7 +42,6 @@ namespace DefaultNamespace.CommandExecutors
             else
             {
                 currentTask.Tick(Time.deltaTime);
-                Debug.Log(currentTask.GetProductionTime_DEBUG());
             }
         }
     }
