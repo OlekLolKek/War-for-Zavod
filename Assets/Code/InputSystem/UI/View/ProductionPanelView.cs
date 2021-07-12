@@ -26,8 +26,6 @@ namespace InputSystem.UI.View
 
         private void UpdateLine()
         {
-            Debug.Log("DisplayLine");
-
             _productionTasks = _productionTasks.ToList();
             if (_productionTasks.Count == 0)
             {

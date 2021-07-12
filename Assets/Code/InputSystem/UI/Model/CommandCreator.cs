@@ -12,7 +12,7 @@ namespace InputSystem.UI.Model
     {
         public void CreateCommand(ICommandExecutor executor, Action<T> onCreated)
         {
-            if (executor as BaseCommandExecutor<T>)
+            if (executor is BaseCommandExecutor<T>)
             {
                 CreateSpecificCommand(onCreated);
             }
