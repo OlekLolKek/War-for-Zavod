@@ -12,7 +12,8 @@ namespace Utils
         {
             var voidTask = new TaskCompletionSource<Void>();
             
-            using (cancellationToken.Register(token => ((TaskCompletionSource<Void>) token).TrySetResult(new Void()), voidTask))
+            using (cancellationToken.Register(token =>
+                ((TaskCompletionSource<Void>) token).TrySetResult(new Void()), voidTask))
             {
                 var any = await Task.WhenAny(task, voidTask.Task);
                 if (any == voidTask.Task)

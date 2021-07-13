@@ -1,23 +1,20 @@
-using System;
 using Abstractions;
-using UniRx;
-using UnityEngine;
 using UnityEngine.AI;
 
 
 namespace Core
 {
-    public class MoveTask : IMoveTask
+    public class AttackTask : IAttackTask
     {
-        public Vector3 MovementPoint { get; }
+        public ISelectableItem Target { get; }
 
         private readonly NavMeshAgent _navMeshAgent;
         private readonly float _remainingDistanceThreshold;
 
-        public MoveTask(Vector3 movementPoint, NavMeshAgent navMeshAgent,
-            float remainingDistanceThreshold)
+        public AttackTask(ISelectableItem target, 
+            NavMeshAgent navMeshAgent, float remainingDistanceThreshold)
         {
-            MovementPoint = movementPoint;
+            Target = target;
             _navMeshAgent = navMeshAgent;
             _remainingDistanceThreshold = remainingDistanceThreshold;
         }

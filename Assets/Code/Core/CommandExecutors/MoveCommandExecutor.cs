@@ -19,7 +19,7 @@ namespace DefaultNamespace.CommandExecutors
             new ReactiveCollection<IMoveTask>();
         
         [SerializeField] private NavMeshAgent _agent;
-        [SerializeField] private float _remainingDistanceThreshold = 0.99f;
+        [SerializeField] private float _remainingDistanceThreshold = 0.75f;
         
         protected override void ExecuteSpecificCommand(IMoveCommand command)
         {
