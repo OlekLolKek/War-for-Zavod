@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Core
 {
-    public class MainBuilding : MonoBehaviour, ISelectableItem
+    public class MainUnit : MonoBehaviour, ISelectableItem
     {
         [SerializeField] private Sprite _icon;
         [SerializeField] private Vector3 _selectionCircleOffset;
@@ -18,5 +18,6 @@ namespace Core
         public string Name => _name;
         public float MaxHealth => _maxHealth;
         public float Health => _health;
+
     }
 }
