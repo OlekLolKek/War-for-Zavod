@@ -11,12 +11,17 @@ namespace InputSystem.UI.Model
         public override void InstallBindings()
         {
             Container.Bind<ControlButtonPanel>().AsSingle();
-            
+            Container.Bind<ProductionPanel>().AsSingle();
+
             Container.Bind<CommandCreator<IProduceUnitCommand>>().To<ProduceUnitCommandCreator>().AsSingle();
             Container.Bind<CommandCreator<IMoveCommand>>().To<MoveCommandCreator>().AsSingle();
             Container.Bind<CommandCreator<IAttackCommand>>().To<AttackCommandCreator>().AsSingle();
             Container.Bind<CommandCreator<IPatrolCommand>>().To<PatrolCommandCreator>().AsSingle();
             Container.Bind<CommandCreator<IStopCommand>>().To<StopCommandCreator>().AsSingle();
+            
+            Container.Bind<int>().WithId("TestUnitProductionTime").FromInstance(3);
+            Container.Bind<string>().WithId("TestUnitName").FromInstance("Test Unit");
+            //Container.Bind<Sprite>().WithId("TestUnitIcon");
         }
     }
 }

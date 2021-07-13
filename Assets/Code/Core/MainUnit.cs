@@ -1,4 +1,6 @@
+using System;
 using Abstractions;
+using UniRx;
 using UnityEngine;
 
 
@@ -17,7 +19,13 @@ namespace Core
         public Vector3 SelectionCircleOffset => _selectionCircleOffset;
         public string Name => _name;
         public float MaxHealth => _maxHealth;
-        public float Health => _health;
+        public IObservable<float> Health => _reactiveHealth;
 
+        private ReactiveProperty<float> _reactiveHealth;
+
+        private void Awake()
+        {
+            _reactiveHealth = new ReactiveProperty<float>(_health);
+        }
     }
 }

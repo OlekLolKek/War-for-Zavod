@@ -19,7 +19,7 @@ namespace InputSystem.UI.Presenter
 
         private void Start()
         {
-            _selectedItemModel.OnUpdated += SetButtons;
+            _selectedItemModel.OnUpdated += HandleSelectionChanged;
             _view.OnClick += ClickHandler;
             SetButtons();
         }
@@ -27,7 +27,7 @@ namespace InputSystem.UI.Presenter
         private void OnDestroy()
         {
             _view.OnClick -= ClickHandler;
-            _selectedItemModel.OnUpdated -= SetButtons;
+            _selectedItemModel.OnUpdated -= HandleSelectionChanged;
         }
 
         private void ClickHandler(ICommandExecutor executor)
@@ -35,8 +35,15 @@ namespace InputSystem.UI.Presenter
             _controlButtonPanelModel.HandleClick(executor);
         }
 
+        private void HandleSelectionChanged()
+        {
+            _controlButtonPanelModel.HandleSelectionChanged();
+            SetButtons();
+        }
+
         private void SetButtons()
         {
+            
             _view.ClearButtons();
             if (_selectedItemModel.Value == null)
             {
