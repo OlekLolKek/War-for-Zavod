@@ -3,6 +3,7 @@ using Abstractions;
 using Core;
 using UniRx;
 using UnityEngine;
+using UnityEngine.AI;
 using Zenject;
 
 
@@ -16,7 +17,9 @@ namespace DefaultNamespace.CommandExecutors
         
         private readonly ReactiveCollection<IProductionTask> _productionQueue =
             new ReactiveCollection<IProductionTask>();
-        
+
+        [SerializeField] private Transform _assemblyPoint;
+
         protected override void ExecuteSpecificCommand(IProduceUnitCommand command)
         {
             var newTask =
@@ -28,9 +31,11 @@ namespace DefaultNamespace.CommandExecutors
         private void CreateUnit(ProductionTask task)
         {
             _productionQueue.Remove(task);
-            Instantiate(task.UnitPrefab, 
+            var unit = Instantiate(task.UnitPrefab, 
                 transform.position + Vector3.forward * 2, 
                 Quaternion.identity);
+            unit.TryGetComponent<NavMeshAgent>(out var navMeshAgent);
+            navMeshAgent.SetDestination(_assemblyPoint.position);
         }
 
         public void Tick()
