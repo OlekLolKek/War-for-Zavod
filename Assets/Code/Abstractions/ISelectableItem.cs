@@ -6,6 +6,8 @@ namespace Abstractions
     public interface ISelectableItem
     {
         Sprite Icon { get; }
+        GameObject GameObject { get; }
+        Vector3 SelectionCircleOffset { get; }
         string Name { get; }
         float Health { get; }
         float MaxHealth { get; }

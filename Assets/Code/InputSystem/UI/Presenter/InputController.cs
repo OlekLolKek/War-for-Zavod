@@ -17,10 +17,7 @@ namespace InputSystem.UI.Presenter
                 if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out var hitInfo))
                 {
                     var selectableItem = hitInfo.collider.gameObject.GetComponent<ISelectableItem>();
-                    if (selectableItem != null)
-                    {
-                        _currentSelected.SetValue(selectableItem);
-                    }
+                    _currentSelected.SetValue(selectableItem);
                 }
             }
         }
