@@ -16,7 +16,7 @@ namespace Abstractions
 
     public interface IAttackCommand : ICommand
     {
-        GameObject Target { get; }
+        ISelectableItem Target { get; }
     }
 
     public interface IPatrolCommand : ICommand

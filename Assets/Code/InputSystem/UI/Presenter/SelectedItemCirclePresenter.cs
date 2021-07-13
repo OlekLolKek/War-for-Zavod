@@ -24,17 +24,7 @@ namespace InputSystem.UI.Presenter
 
         private void UpdateView()
         {
-            if (_model.Value == null)
-            {
-                _view.transform.SetParent(null);
-                _view.gameObject.SetActive(false);
-                return;
-            }
-
-            _view.gameObject.SetActive(true);
-            _view.transform.position = _model.Value.GameObject.transform.position
-                                       + _model.Value.SelectionCircleOffset;
-            _view.transform.SetParent(_model.Value.GameObject.transform);
+            _view.Activate(_model.Value != null, _model.Value);
         }
     }
 }

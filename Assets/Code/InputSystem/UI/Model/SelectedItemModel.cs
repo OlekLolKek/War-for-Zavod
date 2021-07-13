@@ -6,17 +6,7 @@ using UnityEngine;
 namespace InputSystem.UI.Model
 {
     [CreateAssetMenu(fileName = nameof(SelectedItemModel), menuName = "Strategy/Models")]
-    public class SelectedItemModel : ScriptableObject
+    public class SelectedItemModel : BaseDataModel<ISelectableItem>
     {
-        private ISelectableItem _value;
-        public ISelectableItem Value => _value;
-
-        public void SetValue(ISelectableItem value)
-        {
-            _value = value;
-            OnUpdated?.Invoke();
-        }
-        
-        public event Action OnUpdated;
     }
 }
