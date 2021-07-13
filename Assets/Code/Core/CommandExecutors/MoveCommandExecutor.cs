@@ -37,7 +37,7 @@ namespace DefaultNamespace.CommandExecutors
 
         //TODO: replace with Tick()
         // UPD: Tick method doesn't inject from MoveCommandCreator for some reason,
-        // unlike all the [Inject] fields in ProduceUnitCommandExecutor
+        // unlike all the [Inject] fields in ProduceUnitCommand
         public void Update()
         {
             if (_moveQueue.Count == 0)
