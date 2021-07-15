@@ -29,12 +29,12 @@ namespace Abstractions
     {
         //TODO: change ISelectableItem to IDamageable or something
         
-        public AttackCommand(ISelectableItem value)
+        public AttackCommand(IAttackable value)
         {
             Target = value;
         }
 
-        public ISelectableItem Target { get; }
+        public IAttackable Target { get; }
     }
     
     public class PatrolCommand : IPatrolCommand

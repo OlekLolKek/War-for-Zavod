@@ -3,6 +3,7 @@ using InputSystem.UI.Model;
 using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Zenject;
 
 
 namespace InputSystem.UI.Presenter
@@ -13,15 +14,20 @@ namespace InputSystem.UI.Presenter
         [SerializeField] private EventSystem _eventSystem;
         [SerializeField] private SelectedItemModel _currentSelected;
         [SerializeField] private GroundClickModel _groundClickModel;
+        [SerializeField] private AttackableTargetModel _target;
 
         private void Start()
         {
-            var clickStream = Observable.EveryUpdate()
+            var leftClickStream = Observable.EveryUpdate()
                     .Where(_ => !_eventSystem.IsPointerOverGameObject() && Input.GetMouseButtonDown(0));
-            clickStream.Subscribe(onNext => MousePointerRaycast());
+            leftClickStream.Subscribe(onNext => SelectableRaycast());
+
+            var rightClickStream = Observable.EveryUpdate()
+                .Where(_ => !_eventSystem.IsPointerOverGameObject() && Input.GetMouseButtonDown(1));
+            rightClickStream.Subscribe(onNext => AttackRaycast());
         }
 
-        private void MousePointerRaycast()
+        private void SelectableRaycast()
         {
             if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out var hitInfo))
             {
@@ -34,6 +40,18 @@ namespace InputSystem.UI.Presenter
                 {
                     _groundClickModel.SetValue(hitInfo.point);
                     _currentSelected.SetValue(null);
+                }
+            }
+        }
+
+        private void AttackRaycast()
+        {
+            if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out var hitInfo))
+            {
+                var attackable = hitInfo.collider.gameObject.GetComponent<IAttackable>();
+                if (attackable != null)
+                {
+                    _target.SetValue(attackable);
                 }
             }
         }

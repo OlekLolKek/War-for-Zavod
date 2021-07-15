@@ -12,8 +12,7 @@ namespace InputSystem.UI.Model
         [SerializeField] private AssetsStorage _assetsStorage;
         [SerializeField] private GroundClickModel _groundClickModel;
         [SerializeField] private SelectedItemModel _selectedItemModel;
-        [SerializeField] private AttackableTargetModel _dummyTarget;
-        
+
         public override void InstallBindings()
         {
             Container.Bind<AssetsStorage>().FromInstance(_assetsStorage).AsSingle();

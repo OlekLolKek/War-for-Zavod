@@ -1,7 +1,6 @@
 using System;
-using System.Linq;
+using System.Threading;
 using Abstractions;
-using Core;
 using UniRx;
 using UnityEngine;
 using UnityEngine.AI;
@@ -9,51 +8,111 @@ using UnityEngine.AI;
 
 namespace DefaultNamespace.CommandExecutors
 {
-    public class AttackCommandExecutor : BaseCommandExecutor<IAttackCommand>,
-        IAttackTaskWorker
+    public class AttackCommandExecutor : BaseCommandExecutor<IAttackCommand>
     {
-        public IReadOnlyReactiveCollection<IAttackTask> AttackQueue => 
-            _attackQueue;
+        [SerializeField] private NavMeshAgent _navMeshAgent;
+        
+        private AttackOperation _currentAttack;
+        private IAttackable _target;
+        private IAttacker _attacker;
+        
+        private Vector3 _targetPosition;
+        private Vector3 _attackerPosition;
 
-        private readonly ReactiveCollection<IAttackTask> _attackQueue =
-            new ReactiveCollection<IAttackTask>();
-        
-        [SerializeField] private NavMeshAgent _agent;
-        [SerializeField] private float _remainingDistanceThreshold = 0.75f;
-        
+        private Subject<Vector3> _calculatedPositions = new Subject<Vector3>();
+        private Subject<IAttackable> _calculatedTargets = new Subject<IAttackable>();
+
         protected override void ExecuteSpecificCommand(IAttackCommand command)
         {
-            if (command.Target != null)
-            {
-                var newTask =
-                    new AttackTask(command.Target, _agent,
-                        _remainingDistanceThreshold);
-                _attackQueue.Add(newTask);
-            }
-            else
-            {
-                Debug.Log("You didn't select an enemy.");
-            }
-        }
+            Debug.Log("Attack");
+            _target = command.Target;
+            _attacker = GetComponent<IAttacker>();
+            _currentAttack = new AttackOperation(this, _attacker, _target);
 
-        private void SetTarget(AttackTask task)
-        {
-            _attackQueue.Remove(task);
-            _agent.SetDestination(task.Target.SelectionParentTransform.position);
+            _calculatedPositions.ObserveOnMainThread().Subscribe(Move).AddTo(this);
+            _calculatedTargets.ObserveOnMainThread().Subscribe(DoAttack).AddTo(this);
         }
 
         private void Update()
         {
-            if (_attackQueue.Count == 0)
+            if (_currentAttack == null)
             {
                 return;
             }
-
-            var currentTask = (AttackTask) AttackQueue.First();
-
-            if (currentTask.IsEnded())
+            
+            lock (_attacker)
             {
-                SetTarget(currentTask);
+                if (_target == null || _target.IsDead())
+                {
+                    return;
+                }
+
+                _targetPosition = _target.Position;
+                _attackerPosition = _attacker.Position;
+            }
+        }
+        
+        private void Move(Vector3 to)
+        {
+            Debug.Log("les go");
+            _navMeshAgent.SetDestination(to);
+        }
+
+        private void DoAttack(IAttackable target)
+        {
+            Debug.Log("reznya myaso");
+            _navMeshAgent.ResetPath();
+            target.TakeDamage(_attacker.AttackDamage);
+        }
+
+        public class AttackOperation
+        {
+            private readonly AttackCommandExecutor _attackCommandExecutor;
+            private readonly IAttacker _attacker;
+            private readonly IAttackable _target;
+            private bool _targetIsDead;
+            
+            public AttackOperation(AttackCommandExecutor attackCommandExecutor,
+                IAttacker attacker, IAttackable target)
+            {
+                _attackCommandExecutor = attackCommandExecutor;
+                _attacker = attacker;
+                _target = target;
+                _target.Health.Subscribe(value =>
+                {
+                    _targetIsDead = value <= 0;
+                });
+                
+                var thread = new Thread(AttackRoutine);
+                thread.Start();
+            }
+
+            private void AttackRoutine()
+            {
+                while (!_targetIsDead)
+                {
+                    Vector3 targetPosition;
+                    Vector3 attackerPosition;
+                
+                    lock (_attacker)
+                    {
+                        targetPosition = _attackCommandExecutor._targetPosition;
+                        attackerPosition = _attackCommandExecutor._attackerPosition;
+                    }
+                
+                    var distance = (targetPosition - attackerPosition).magnitude;
+                    if (distance <= _attacker.AttackRange)
+                    {
+                        Debug.Log($"Distance: {distance}, Attack Range: {_attacker.AttackRange},\nTarget position: {targetPosition}, Attacker position: {attackerPosition}");
+                        _attackCommandExecutor._calculatedTargets.OnNext(_target);
+                        Thread.Sleep((int) (_attacker.AttackCooldown * 1000));
+                    }
+                    else
+                    {
+                        _attackCommandExecutor._calculatedPositions.OnNext(targetPosition);
+                        Thread.Sleep(100);
+                    }
+                }
             }
         }
     }

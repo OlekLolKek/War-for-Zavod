@@ -79,9 +79,9 @@ namespace InputSystem.UI.Model
         }
     }
 
-    public class AttackCommandCreator : CancelableCommandCreator<IAttackCommand, ISelectableItem>
+    public class AttackCommandCreator : CancelableCommandCreator<IAttackCommand, IAttackable>
     {
-        protected override IAttackCommand GetCommand(ISelectableItem param)
+        protected override IAttackCommand GetCommand(IAttackable param)
         {
             return new AttackCommand(param);
         }

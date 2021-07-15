@@ -51,8 +51,11 @@ namespace InputSystem.UI.View
 
         public void RemoveCurrentTask()
         {
-            _productionTasks.RemoveAt(0);
-
+            if (_productionTasks.Count > 0)
+            {
+                _productionTasks.RemoveAt(0);
+            }
+            
             ClearView();
             
             UpdateLine();
