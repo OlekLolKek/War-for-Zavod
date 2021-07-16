@@ -1,23 +1,61 @@
+using System;
 using Abstractions;
+using UniRx;
 using UnityEngine;
 
 
 namespace Core
 {
-    public class MainUnit : MonoBehaviour, ISelectableItem
+    public class MainUnit : MonoBehaviour, ISelectableItem, IAttacker, IAttackable
     {
+        [SerializeField] private Fractions _fraction;
         [SerializeField] private Sprite _icon;
         [SerializeField] private Vector3 _selectionCircleOffset;
         [SerializeField] private string _name;
         [SerializeField] private float _maxHealth;
         [SerializeField] private float _health;
+        
+        private ReactiveProperty<float> _reactiveHealth;
 
+        public Fractions Fraction => _fraction;
         public Sprite Icon => _icon;
         public Transform SelectionParentTransform => transform;
         public Vector3 SelectionCircleOffset => _selectionCircleOffset;
         public string Name => _name;
         public float MaxHealth => _maxHealth;
-        public float Health => _health;
+        public IObservable<float> Health => _reactiveHealth;
+        public Action<ISelectableItem> OnDied { get; set; }
 
+        private void Awake()
+        {
+            _reactiveHealth = new ReactiveProperty<float>(_health);
+        }
+
+        public float AttackRange => 1.5f;
+        public float AttackDamage => 25.0f;
+        public float AttackCooldown => 1.25f;
+        public Vector3 Position => transform.position;
+
+        public bool IsDead()
+        {
+            return _reactiveHealth.Value <= 0.0f;
+        }
+        
+        public void TakeDamage(float damage)
+        {
+            _reactiveHealth.Value -= damage;
+
+            if (_reactiveHealth.Value <= 0)
+            {
+                _reactiveHealth.Value = 0;
+                OnDied?.Invoke(this);
+                Destroy(gameObject);
+            }
+        }
+
+        public void SetFraction(Fractions fraction)
+        {
+            _fraction = fraction;
+        }
     }
 }

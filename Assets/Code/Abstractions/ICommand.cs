@@ -16,7 +16,7 @@ namespace Abstractions
 
     public interface IAttackCommand : ICommand
     {
-        ISelectableItem Target { get; }
+        IAttackable Target { get; }
     }
 
     public interface IPatrolCommand : ICommand
@@ -32,6 +32,9 @@ namespace Abstractions
 
     public interface IProduceUnitCommand : ICommand
     {
+        int ProductionTime { get; }
+        string UnitName { get; }
+        Sprite UnitIcon { get; }
         GameObject UnitPrefab { get; }
     }
 }

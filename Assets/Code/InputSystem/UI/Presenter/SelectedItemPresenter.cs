@@ -1,6 +1,7 @@
 using System;
 using InputSystem.UI.Model;
 using InputSystem.UI.View;
+using UniRx;
 using UnityEngine;
 
 
@@ -10,6 +11,8 @@ namespace InputSystem.UI.Presenter
     {
         [SerializeField] private SelectedItemModel _model;
         [SerializeField] private SelectedItemView _view;
+
+        private IDisposable _healthUpdater;
 
         private void Start()
         {
@@ -24,6 +27,12 @@ namespace InputSystem.UI.Presenter
 
         private void UpdateView()
         {
+            if (_healthUpdater != null)
+            {
+                _healthUpdater.Dispose();
+                _healthUpdater = null;
+            }
+
             if (_model.Value == null)
             {
                 _view.gameObject.SetActive(false);
@@ -35,8 +44,12 @@ namespace InputSystem.UI.Presenter
             _view.transform.parent.gameObject.SetActive(true);
             _view.Icon = _model.Value.Icon;
             _view.Name = _model.Value.Name;
-            _view.Health =$"Health: {_model.Value.Health} / {_model.Value.MaxHealth}";
-            _view.HealthPercent = _model.Value.Health / _model.Value.MaxHealth;
+            
+            _healthUpdater = _model.Value.Health.Subscribe(currentHealth =>
+            {
+                _view.HealthPercent = currentHealth / _model.Value.MaxHealth;
+                _view.Health =$"Health: {currentHealth} / {_model.Value.MaxHealth}";
+            });
         }
     }
 }
