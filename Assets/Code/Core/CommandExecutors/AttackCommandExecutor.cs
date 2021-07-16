@@ -54,13 +54,11 @@ namespace DefaultNamespace.CommandExecutors
         
         private void Move(Vector3 to)
         {
-            Debug.Log("les go");
             _navMeshAgent.SetDestination(to);
         }
 
         private void DoAttack(IAttackable target)
         {
-            Debug.Log("reznya myaso");
             _navMeshAgent.ResetPath();
             target.TakeDamage(_attacker.AttackDamage);
         }
@@ -103,7 +101,6 @@ namespace DefaultNamespace.CommandExecutors
                     var distance = (targetPosition - attackerPosition).magnitude;
                     if (distance <= _attacker.AttackRange)
                     {
-                        Debug.Log($"Distance: {distance}, Attack Range: {_attacker.AttackRange},\nTarget position: {targetPosition}, Attacker position: {attackerPosition}");
                         _attackCommandExecutor._calculatedTargets.OnNext(_target);
                         Thread.Sleep((int) (_attacker.AttackCooldown * 1000));
                     }
