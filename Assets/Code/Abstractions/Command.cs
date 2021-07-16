@@ -27,8 +27,6 @@ namespace Abstractions
     
     public class AttackCommand : IAttackCommand
     {
-        //TODO: change ISelectableItem to IDamageable or something
-        
         public AttackCommand(IAttackable value)
         {
             Target = value;

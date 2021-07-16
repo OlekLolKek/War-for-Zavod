@@ -23,11 +23,7 @@ namespace InputSystem.UI.Model
             
             Container.Bind<int>().WithId("TestUnitProductionTime").FromInstance(3);
             Container.Bind<string>().WithId("TestUnitName").FromInstance("Test Unit");
-
-            if (GameObject.FindWithTag("DummyTarget") == null)
-            {
-                Debug.Log("DummyTarget is null");
-            }
+            
             _dummyTarget.SetValue(GameObject.FindWithTag("DummyTarget").GetComponent<IAttackable>());
             Container.Bind<IAwaitable<IAttackable>>().FromInstance(_dummyTarget).AsSingle();
         }

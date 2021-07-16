@@ -6,26 +6,51 @@ using UnityEngine;
 
 namespace Core
 {
-    public class MainBuilding : MonoBehaviour, ISelectableItem
+    public class MainBuilding : MonoBehaviour, ISelectableItem, IAttackable
     {
+        [SerializeField] private Fractions _fraction;
         [SerializeField] private Sprite _icon;
         [SerializeField] private Vector3 _selectionCircleOffset;
         [SerializeField] private string _name;
         [SerializeField] private float _maxHealth;
         [SerializeField] private float _health;
+        
+        private ReactiveProperty<float> _reactiveHealth;
 
+        public Fractions Fraction => _fraction;
         public Sprite Icon => _icon;
         public Transform SelectionParentTransform => transform;
         public Vector3 SelectionCircleOffset => _selectionCircleOffset;
         public string Name => _name;
         public float MaxHealth => _maxHealth;
+        public Action<ISelectableItem> OnDied { get; set; }
         public IObservable<float> Health => _reactiveHealth;
+        public Vector3 Position { get; }
 
-        private ReactiveProperty<float> _reactiveHealth;
+        public bool IsDead()
+        {
+            return _reactiveHealth.Value <= 0.0f;
+        }
 
+        public void TakeDamage(float damage)
+        {
+            _reactiveHealth.Value -= damage;
+
+            if (_reactiveHealth.Value <= 0.0f)
+            {
+                _reactiveHealth.Value = 0;
+                OnDied?.Invoke(this);
+            }
+        }
+        
         private void Awake()
         {
             _reactiveHealth = new ReactiveProperty<float>(_health);
+        }
+
+        public void SetFraction(Fractions fraction)
+        {
+            _fraction = fraction;
         }
     }
 }

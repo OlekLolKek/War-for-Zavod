@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Abstractions;
 using Core;
@@ -17,8 +18,15 @@ namespace DefaultNamespace.CommandExecutors
         
         private readonly ReactiveCollection<IProductionTask> _productionQueue =
             new ReactiveCollection<IProductionTask>();
-
+        
         [SerializeField] private Transform _assemblyPoint;
+        
+        private ISelectableItem _thisSelectableItem;
+
+        private void Awake()
+        {
+            _thisSelectableItem = GetComponent<ISelectableItem>();
+        }
 
         protected override void ExecuteSpecificCommand(IProduceUnitCommand command)
         {
@@ -36,6 +44,8 @@ namespace DefaultNamespace.CommandExecutors
                 Quaternion.identity);
             unit.TryGetComponent<NavMeshAgent>(out var navMeshAgent);
             navMeshAgent.SetDestination(_assemblyPoint.position);
+            unit.TryGetComponent<ISelectableItem>(out var unitSelectable);
+            unitSelectable.SetFraction(_thisSelectableItem.Fraction);
         }
 
         public void Tick()

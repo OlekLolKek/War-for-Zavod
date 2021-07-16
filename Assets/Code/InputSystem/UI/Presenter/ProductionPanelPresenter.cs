@@ -18,7 +18,7 @@ namespace InputSystem.UI.Presenter
         [Inject] private ProductionPanel _model;
         [Inject] private SelectedItemModel _selectedItem;
 
-        private List<IDisposable> _disposables = new List<IDisposable>();
+        private readonly List<IDisposable> _disposables = new List<IDisposable>();
         
         protected void Awake()
         {
@@ -36,14 +36,6 @@ namespace InputSystem.UI.Presenter
                 return;
             }
 
-            // TODO: remove if everything works fine
-            // var productionTaskWorker = ((_selectedItem.Value) as Component)?.GetComponent<IProductionTaskWorker>();
-            // if (productionTaskWorker == null)
-            // {
-            //     _view.gameObject.SetActive(false);
-            //     return;
-            // }
-            
             if (!((Component) _selectedItem.Value).TryGetComponent<IProductionTaskWorker>(out var productionTaskWorker))
             {
                 _view.gameObject.SetActive(false);

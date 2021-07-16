@@ -19,18 +19,20 @@ namespace DefaultNamespace.CommandExecutors
         private Vector3 _targetPosition;
         private Vector3 _attackerPosition;
 
-        private Subject<Vector3> _calculatedPositions = new Subject<Vector3>();
-        private Subject<IAttackable> _calculatedTargets = new Subject<IAttackable>();
+        private readonly Subject<Vector3> _calculatedPositions = new Subject<Vector3>();
+        private readonly Subject<IAttackable> _calculatedTargets = new Subject<IAttackable>();
 
         protected override void ExecuteSpecificCommand(IAttackCommand command)
         {
-            Debug.Log("Attack");
             _target = command.Target;
             _attacker = GetComponent<IAttacker>();
-            _currentAttack = new AttackOperation(this, _attacker, _target);
+            if (_target.Fraction != _attacker.Fraction)
+            {
+                _currentAttack = new AttackOperation(this, _attacker, _target);
 
-            _calculatedPositions.ObserveOnMainThread().Subscribe(Move).AddTo(this);
-            _calculatedTargets.ObserveOnMainThread().Subscribe(DoAttack).AddTo(this);
+                _calculatedPositions.ObserveOnMainThread().Subscribe(Move).AddTo(this);
+                _calculatedTargets.ObserveOnMainThread().Subscribe(DoAttack).AddTo(this);
+            }
         }
 
         private void Update()
@@ -63,7 +65,7 @@ namespace DefaultNamespace.CommandExecutors
             target.TakeDamage(_attacker.AttackDamage);
         }
 
-        public class AttackOperation
+        private class AttackOperation
         {
             private readonly AttackCommandExecutor _attackCommandExecutor;
             private readonly IAttacker _attacker;
