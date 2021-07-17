@@ -1,6 +1,6 @@
 namespace Abstractions
 {
-    public enum Fractions
+    public enum Team
     {
         None = 0,
         Blue = 1,

@@ -136,6 +136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a502fd96e2084f24ba95840e40ca1711, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _team: 1
   _icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   _selectionCircleOffset: {x: 0, y: 0.1, z: 0}
   _name: Scav

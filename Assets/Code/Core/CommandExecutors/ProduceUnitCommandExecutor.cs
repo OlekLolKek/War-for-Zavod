@@ -45,7 +45,9 @@ namespace DefaultNamespace.CommandExecutors
             unit.TryGetComponent<NavMeshAgent>(out var navMeshAgent);
             navMeshAgent.SetDestination(_assemblyPoint.position);
             unit.TryGetComponent<ISelectableItem>(out var unitSelectable);
-            unitSelectable.SetFraction(_thisSelectableItem.Fraction);
+            //TODO: add fraction setting when unit is created
+            // ok
+            //unitSelectable.SetFraction(_thisSelectableItem.Fraction);
         }
 
         public void Tick()

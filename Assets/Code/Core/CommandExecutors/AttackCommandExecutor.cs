@@ -26,13 +26,14 @@ namespace DefaultNamespace.CommandExecutors
         {
             _target = command.Target;
             _attacker = GetComponent<IAttacker>();
-            if (_target.Fraction != _attacker.Fraction)
-            {
+            //TODO: add command check
+            //if (_target.Team != _attacker.Team)
+            //{
                 _currentAttack = new AttackOperation(this, _attacker, _target);
 
                 _calculatedPositions.ObserveOnMainThread().Subscribe(Move).AddTo(this);
                 _calculatedTargets.ObserveOnMainThread().Subscribe(DoAttack).AddTo(this);
-            }
+            //}
         }
 
         private void Update()

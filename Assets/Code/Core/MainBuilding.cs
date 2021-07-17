@@ -8,7 +8,7 @@ namespace Core
 {
     public class MainBuilding : MonoBehaviour, ISelectableItem, IAttackable
     {
-        [SerializeField] private Fractions _fraction;
+        [SerializeField] private Team _team;
         [SerializeField] private Sprite _icon;
         [SerializeField] private Vector3 _selectionCircleOffset;
         [SerializeField] private string _name;
@@ -17,7 +17,7 @@ namespace Core
         
         private ReactiveProperty<float> _reactiveHealth;
 
-        public Fractions Fraction => _fraction;
+        public Team Team => _team;
         public Sprite Icon => _icon;
         public Transform SelectionParentTransform => transform;
         public Vector3 SelectionCircleOffset => _selectionCircleOffset;
@@ -48,9 +48,9 @@ namespace Core
             _reactiveHealth = new ReactiveProperty<float>(_health);
         }
 
-        public void SetFraction(Fractions fraction)
+        public void SetFraction(Team team)
         {
-            _fraction = fraction;
+            _team = team;
         }
     }
 }
