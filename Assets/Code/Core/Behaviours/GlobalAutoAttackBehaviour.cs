@@ -30,7 +30,10 @@ namespace Core.Behaviours
                     (other.Position - unit.Position).sqrMagnitude)
                 .FirstOrDefault();
 
-            unit.AttackTarget(closestEnemy);
+            if (closestEnemy != null)
+            {
+                unit.AttackTarget(closestEnemy);
+            }
         }
     }
 }

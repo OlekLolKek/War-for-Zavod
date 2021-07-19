@@ -20,6 +20,8 @@ namespace InputSystem.UI.Model
             Container.Bind<CommandCreator<IAttackCommand>>().To<AttackCommandCreator>().AsSingle();
             Container.Bind<CommandCreator<IPatrolCommand>>().To<PatrolCommandCreator>().AsSingle();
             Container.Bind<CommandCreator<IStopCommand>>().To<StopCommandCreator>().AsSingle();
+
+            Container.BindFactory<IProduceUnitCommand, CommandFactory<IProduceUnitCommand>>().To<ProduceUnitCommand>();
             
             Container.Bind<int>().WithId("TestUnitProductionTime").FromInstance(3);
             Container.Bind<string>().WithId("TestUnitName").FromInstance("Test Unit");

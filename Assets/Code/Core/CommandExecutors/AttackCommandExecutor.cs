@@ -21,16 +21,21 @@ namespace DefaultNamespace.CommandExecutors
 
         private readonly Subject<Vector3> _calculatedPositions = new Subject<Vector3>();
         private readonly Subject<IAttackable> _calculatedTargets = new Subject<IAttackable>();
+        //TODO: change to `HasActiveCommand => _currentAttack != null`
+        public bool HasActiveCommand { get; private set; }
 
         protected override void ExecuteSpecificCommand(IAttackCommand command)
         {
             _target = command.Target;
+            //TODO: get and save the component in start/awake
             _attacker = GetComponent<IAttacker>();
-            //TODO: add command check
+            
+            //TODO: add team check
             //if (_target.Team != _attacker.Team)
             //{
                 _currentAttack = new AttackOperation(this, _attacker, _target);
-
+                
+                HasActiveCommand = true;
                 _calculatedPositions.ObserveOnMainThread().Subscribe(Move).AddTo(this);
                 _calculatedTargets.ObserveOnMainThread().Subscribe(DoAttack).AddTo(this);
             //}
@@ -47,6 +52,8 @@ namespace DefaultNamespace.CommandExecutors
             {
                 if (_target == null || _target.IsDead())
                 {
+                    _currentAttack = null;
+                    HasActiveCommand = false;
                     return;
                 }
 
@@ -62,8 +69,12 @@ namespace DefaultNamespace.CommandExecutors
 
         private void DoAttack(IAttackable target)
         {
-            _navMeshAgent.ResetPath();
-            target.TakeDamage(_attacker.AttackDamage);
+            if (_navMeshAgent.enabled && gameObject.activeSelf)
+            {
+                _navMeshAgent.ResetPath();
+            }
+            
+            target?.TakeDamage(_attacker.AttackDamage);
         }
 
         private class AttackOperation

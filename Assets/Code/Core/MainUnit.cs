@@ -17,6 +17,11 @@ namespace Core
         [SerializeField] private float _health;
         
         private ReactiveProperty<float> _reactiveHealth;
+        private AttackCommandExecutor _attackCommandExecutor;
+        private MoveCommandExecutor _moveCommandExecutor;
+        private bool _canPerformAutoAttack;
+        
+        private readonly Subject<AttackCommand> _nextAutoAttack = new Subject<AttackCommand>();
         
         public Team Team => _team;
         public Sprite Icon => _icon;
@@ -30,25 +35,38 @@ namespace Core
         private void Awake()
         {
             _reactiveHealth = new ReactiveProperty<float>(_health);
+
+            _attackCommandExecutor = GetComponent<AttackCommandExecutor>();
+            _moveCommandExecutor = GetComponent<MoveCommandExecutor>();
         }
 
         private void Start()
         {
             UnitsManager.Instance.RegisterUnit(this);
+            _nextAutoAttack.ObserveOnMainThread()
+                .Subscribe(command => _attackCommandExecutor.Execute(command))
+                .AddTo(this);
         }
 
-        
+        private void Update()
+        {
+            _position = transform.position;
+            _canPerformAutoAttack = !(_moveCommandExecutor.HasActiveCommand || _attackCommandExecutor.HasActiveCommand);
+        }
+
+
         //TODO: move properties up, add regions
         public float AttackRange => 1.5f;
         public float AttackDamage => 25.0f;
         public float AttackCooldown => 1.25f;
-        public float VisionRange => 10.0f;
-        public Vector3 Position => transform.position;
+        public float VisionRange => 3.0f;
+        public Vector3 Position => _position;
+        private Vector3 _position;
 
         public void AttackTarget(IAttackable target)
         {
             var command = new AttackCommand(target);
-            GetComponent<AttackCommandExecutor>().Execute(command);
+            _nextAutoAttack.OnNext(command);
         }
         
         public bool IsDead()
@@ -69,7 +87,7 @@ namespace Core
 
         public bool CanPerformAutoAttack()
         {
-            return true;
+            return _canPerformAutoAttack;
         }
     }
 }

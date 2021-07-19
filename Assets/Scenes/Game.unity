@@ -696,6 +696,62 @@ MonoBehaviour:
   m_FlexibleWidth: 0
   m_FlexibleHeight: 0
   m_LayoutPriority: 1
+--- !u!1 &262714214
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 262714216}
+  - component: {fileID: 262714215}
+  - component: {fileID: 262714217}
+  m_Layer: 0
+  m_Name: UnitManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &262714215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 262714214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa1eea1ad7e2470a867a25e59297f8c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &262714216
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 262714214}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 6.4029284, y: -0.6018219, z: 7.9514036}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &262714217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 262714214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2627caef1df9495ca584f0a8d35cc01a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &270331788
 GameObject:
   m_ObjectHideFlags: 0
@@ -1665,7 +1721,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32b5f2b1a55a15c4fb6b88d67aa25b36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fraction: 2
+  _team: 0
   _icon: {fileID: 21300000, guid: edd447feb3ad6aa409ca649664793c1f, type: 3}
   _selectionCircleOffset: {x: 0, y: 0.01, z: 0}
   _name: Molot
@@ -2943,6 +2999,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 54198298021937201, guid: d46761889a5736847b2b9c0056e4b1ac, type: 3}
+      propertyPath: _team
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1426762781393767029, guid: d46761889a5736847b2b9c0056e4b1ac, type: 3}
       propertyPath: m_Name
       value: DummyTarget
@@ -3261,7 +3321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32b5f2b1a55a15c4fb6b88d67aa25b36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fraction: 1
+  _team: 0
   _icon: {fileID: 21300000, guid: 0df0f4ee863d35040a68f75eaeeda914, type: 3}
   _selectionCircleOffset: {x: 0, y: 0.01, z: 0}
   _name: Ubilla

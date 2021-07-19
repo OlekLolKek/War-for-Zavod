@@ -1,3 +1,4 @@
+using System;
 using JetBrains.Annotations;
 using UnityEngine;
 using Utils;
@@ -6,6 +7,10 @@ using Zenject;
 
 namespace Abstractions
 {
+    public class CommandFactory<T> : PlaceholderFactory<T> where T : ICommand
+    {
+    }
+
     public class ProduceUnitCommand : IProduceUnitCommand
     {
         [UsedImplicitly] [InjectAsset("TestUnitPrefab")] private GameObject _unitPrefab;

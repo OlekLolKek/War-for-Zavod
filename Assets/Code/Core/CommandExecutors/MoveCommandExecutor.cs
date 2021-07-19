@@ -17,6 +17,8 @@ namespace DefaultNamespace.CommandExecutors
 
         private readonly ReactiveCollection<IMoveTask> _moveQueue =
             new ReactiveCollection<IMoveTask>();
+
+        public bool HasActiveCommand => _moveQueue.Count > 0;
         
         [SerializeField] private NavMeshAgent _agent;
         [SerializeField] private float _remainingDistanceThreshold = 0.75f;
@@ -34,10 +36,7 @@ namespace DefaultNamespace.CommandExecutors
             _moveQueue.Remove(task);
             _agent.SetDestination(task.MovementPoint);
         }
-
-        //TODO: replace with Tick()
-        // UPD: Tick method doesn't inject from MoveCommandCreator for some reason,
-        // unlike all the [Inject] fields in ProduceUnitCommand
+        
         public void Update()
         {
             if (_moveQueue.Count == 0)
