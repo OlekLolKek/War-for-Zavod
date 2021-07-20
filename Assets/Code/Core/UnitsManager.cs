@@ -10,7 +10,8 @@ namespace Core
 {
     public class UnitsManager : MonoBehaviour
     {
-        public ConcurrentBag<MainUnit> Units { get; private set; }
+        //TODO: change to BaseUnit
+        public ConcurrentBag<BaseUnit> Units { get; private set; }
         
         public static UnitsManager Instance { get; private set; }
 
@@ -18,17 +19,17 @@ namespace Core
         {
             DontDestroyOnLoad(gameObject);
             Instance = this;
-            Units = new ConcurrentBag<MainUnit>();
+            Units = new ConcurrentBag<BaseUnit>();
         }
 
-        public void RegisterUnit(MainUnit unit)
+        public void RegisterUnit(BaseUnit unit)
         {
             Units.Add(unit);
         }
 
-        public void UnregisterUnit(MainUnit unit)
+        public void UnregisterUnit(BaseUnit unit)
         {
-            Units = new ConcurrentBag<MainUnit>(Units.Except(new List<MainUnit> {unit}));
+            Units = new ConcurrentBag<BaseUnit>(Units.Except(new List<BaseUnit> {unit}));
         }
     }
 }

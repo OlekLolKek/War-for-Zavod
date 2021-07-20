@@ -48,10 +48,19 @@ namespace InputSystem.UI.Presenter
         {
             if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out var hitInfo))
             {
+                var selectable = hitInfo.collider.gameObject.GetComponent<ISelectableItem>();
                 var attackable = hitInfo.collider.gameObject.GetComponent<IAttackable>();
-                if (attackable != null)
+                
+                if (selectable != null)
                 {
-                    _target.SetValue(attackable);
+                    if (attackable != null)
+                    {
+                        _target.SetValue(attackable);
+                    }
+                }
+                else
+                {
+                    _groundClickModel.SetValue(hitInfo.point);
                 }
             }
         }

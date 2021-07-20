@@ -7,8 +7,10 @@ using UnityEngine;
 
 namespace Core
 {
-    public class MainUnit : MonoBehaviour, ISelectableItem, IAttacker, IAttackable, ITeamMember
+    public abstract class BaseUnit : MonoBehaviour, IUnit
     {
+        #region Fields
+        
         [SerializeField] private Team _team;
         [SerializeField] private Sprite _icon;
         [SerializeField] private Vector3 _selectionCircleOffset;
@@ -16,23 +18,39 @@ namespace Core
         [SerializeField] private float _maxHealth;
         [SerializeField] private float _health;
         
-        private ReactiveProperty<float> _reactiveHealth;
-        private AttackCommandExecutor _attackCommandExecutor;
-        private MoveCommandExecutor _moveCommandExecutor;
-        private bool _canPerformAutoAttack;
+        protected ReactiveProperty<float> _reactiveHealth;
+        protected AttackCommandExecutor _attackCommandExecutor;
+        protected MoveCommandExecutor _moveCommandExecutor;
+        protected Vector3 _position;
+        protected bool _canPerformAutoAttack;
         
-        private readonly Subject<AttackCommand> _nextAutoAttack = new Subject<AttackCommand>();
+        protected readonly Subject<AttackCommand> _nextAutoAttack = new Subject<AttackCommand>();
+
+        #endregion
         
+        #region Properties
+
+        public Action<ISelectableItem> OnDied { get; set; }
+
+        public IObservable<float> Health => _reactiveHealth;
         public Team Team => _team;
         public Sprite Icon => _icon;
         public Transform SelectionParentTransform => transform;
         public Vector3 SelectionCircleOffset => _selectionCircleOffset;
+        public Vector3 Position => _position;
         public string Name => _name;
+        
         public float MaxHealth => _maxHealth;
-        public IObservable<float> Health => _reactiveHealth;
-        public Action<ISelectableItem> OnDied { get; set; }
+        public abstract float AttackRange { get; }
+        public abstract float AttackDamage { get; }
+        public abstract float AttackCooldown { get; }
+        public abstract float VisionRange { get; }
 
-        private void Awake()
+        #endregion
+        
+        #region UnityMethods
+
+        protected void Awake()
         {
             _reactiveHealth = new ReactiveProperty<float>(_health);
 
@@ -40,7 +58,7 @@ namespace Core
             _moveCommandExecutor = GetComponent<MoveCommandExecutor>();
         }
 
-        private void Start()
+        protected void Start()
         {
             UnitsManager.Instance.RegisterUnit(this);
             _nextAutoAttack.ObserveOnMainThread()
@@ -48,30 +66,21 @@ namespace Core
                 .AddTo(this);
         }
 
-        private void Update()
+        protected void Update()
         {
             _position = transform.position;
             _canPerformAutoAttack = !(_moveCommandExecutor.HasActiveCommand || _attackCommandExecutor.HasActiveCommand);
         }
 
+        #endregion
 
-        //TODO: move properties up, add regions
-        public float AttackRange => 1.5f;
-        public float AttackDamage => 25.0f;
-        public float AttackCooldown => 1.25f;
-        public float VisionRange => 3.0f;
-        public Vector3 Position => _position;
-        private Vector3 _position;
+
+        #region Methods
 
         public void AttackTarget(IAttackable target)
         {
             var command = new AttackCommand(target);
             _nextAutoAttack.OnNext(command);
-        }
-        
-        public bool IsDead()
-        {
-            return _reactiveHealth.Value <= 0.0f;
         }
         
         public void TakeDamage(float damage)
@@ -84,10 +93,17 @@ namespace Core
                 Destroy(gameObject);
             }
         }
+        
+        public bool IsDead()
+        {
+            return _reactiveHealth.Value <= 0.0f;
+        }
 
         public bool CanPerformAutoAttack()
         {
             return _canPerformAutoAttack;
         }
+
+        #endregion
     }
 }

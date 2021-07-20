@@ -15,7 +15,7 @@ namespace Core.Behaviours
             Parallel.ForEach(UnitsManager.Instance.Units, AutoAttackNearestTarget);
         }
 
-        private void AutoAttackNearestTarget(MainUnit unit)
+        private void AutoAttackNearestTarget(BaseUnit unit)
         {
             if (!unit.CanPerformAutoAttack())
             {

@@ -12,7 +12,8 @@ namespace InputSystem.UI.Presenter
 {
     public class ControlButtonPanelPresenter : MonoBehaviour
     {
-        [SerializeField] private SelectedItemModel _selectedItemModel;
+        [Inject] private GroundClickModel _groundClickModel;
+        [Inject] private SelectedItemModel _selectedItemModel;
         [SerializeField] private ControlButtonPanelView _view;
 
         [Inject] private ControlButtonPanel _controlButtonPanelModel;
@@ -22,6 +23,8 @@ namespace InputSystem.UI.Presenter
             _selectedItemModel.OnUpdated += HandleSelectionChanged;
             _view.OnClick += ClickHandler;
             SetButtons();
+            
+            _groundClickModel.OnUpdated += () => ClickHandler((_selectedItemModel.Value as Component)?.GetComponent<BaseCommandExecutor<IMoveCommand>>());
         }
 
         private void OnDestroy()
@@ -43,7 +46,6 @@ namespace InputSystem.UI.Presenter
 
         private void SetButtons()
         {
-            
             _view.ClearButtons();
             if (_selectedItemModel.Value == null)
             {

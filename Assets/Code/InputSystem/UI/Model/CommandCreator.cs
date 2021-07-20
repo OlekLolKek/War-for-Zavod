@@ -57,8 +57,6 @@ namespace InputSystem.UI.Model
     public class ProduceUnitCommandCreator : CommandCreator<IProduceUnitCommand>
     {
         [Inject] private AssetsStorage _assetsStorage;
-        //TODO: remove
-        //[Inject] private DiContainer _container;
         [Inject] private CommandFactory<IProduceUnitCommand> _factory;
 
         protected override void CreateSpecificCommand(Action<IProduceUnitCommand> onCreated)

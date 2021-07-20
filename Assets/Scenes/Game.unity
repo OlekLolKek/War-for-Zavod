@@ -1726,7 +1726,7 @@ MonoBehaviour:
   _selectionCircleOffset: {x: 0, y: 0.01, z: 0}
   _name: Molot
   _maxHealth: 666
-  _health: 25
+  _health: 666
 --- !u!23 &623500116
 MeshRenderer:
   m_ObjectHideFlags: 0
