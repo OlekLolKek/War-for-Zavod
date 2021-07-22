@@ -60,7 +60,8 @@ namespace Core
 
         protected void Start()
         {
-            UnitsManager.Instance.RegisterUnit(this);
+            UnitsManager.Instance.RegisterAttacker(this);
+            UnitsManager.Instance.RegisterAttackable(this);
             _nextAutoAttack.ObserveOnMainThread()
                 .Subscribe(command => _attackCommandExecutor.Execute(command))
                 .AddTo(this);
@@ -89,7 +90,8 @@ namespace Core
 
             if (IsDead())
             {
-                UnitsManager.Instance.UnregisterUnit(this);
+                UnitsManager.Instance.UnregisterAttacker(this);
+                UnitsManager.Instance.UnregisterAttackable(this);
                 Destroy(gameObject);
             }
         }

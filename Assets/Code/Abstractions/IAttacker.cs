@@ -3,8 +3,9 @@ using UnityEngine;
 
 namespace Abstractions
 {
-    public interface IAttacker
+    public interface IAttacker : ITeamMember
     {
+        float VisionRange { get; }
         float AttackRange { get; }
         float AttackDamage { get; }
         float AttackCooldown { get; }

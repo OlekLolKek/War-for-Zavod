@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Abstractions
 {
-    public interface IAttackable
+    public interface IAttackable : ITeamMember
     {
         Action<ISelectableItem> OnDied { get; set; }
         Vector3 Position { get; }

@@ -9,7 +9,14 @@ namespace InputSystem.UI.Model
     public abstract class BaseDataModel<T> : ScriptableObject, IAwaitable<T>
     {
         private T _value;
-        public T Value => _value;
+        public T Value
+        {
+            get
+            {
+                Debug.Log(_value);
+                return _value;
+            }
+        }
         public event Action OnUpdated;
 
         public virtual void SetValue(T value)

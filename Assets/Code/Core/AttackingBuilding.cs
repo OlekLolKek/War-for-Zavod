@@ -18,6 +18,7 @@ namespace Core
         
         public Action<ISelectableItem> OnDied { get; set; }
         public Vector3 Position => _position;
+        public float VisionRange => 8.0f;
         public float AttackRange => 7.5f;
         public float AttackDamage => 5.0f;
         public float AttackCooldown => 1.5f;
@@ -26,7 +27,12 @@ namespace Core
         {
             base.Awake();
             _attackCommandExecutor = GetComponent<AttackCommandExecutor>();
-            
+        }
+        
+        protected void Start()
+        {
+            UnitsManager.Instance.RegisterAttacker(this);
+            UnitsManager.Instance.RegisterAttackable(this);
             _nextAutoAttack.ObserveOnMainThread()
                 .Subscribe(command => _attackCommandExecutor.Execute(command))
                 .AddTo(this);
@@ -50,6 +56,8 @@ namespace Core
 
             if (_reactiveHealth.Value <= 0.0f)
             {
+                UnitsManager.Instance.UnregisterAttacker(this);
+                UnitsManager.Instance.UnregisterAttackable(this);
                 _reactiveHealth.Value = 0;
                 OnDied?.Invoke(this);
             }

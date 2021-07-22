@@ -18,6 +18,7 @@ namespace DefaultNamespace.CommandExecutors
         
         private Vector3 _targetPosition;
         private Vector3 _attackerPosition;
+        private bool _isStatic;
 
         private readonly Subject<Vector3> _calculatedPositions = new Subject<Vector3>();
         private readonly Subject<IAttackable> _calculatedTargets = new Subject<IAttackable>();
@@ -34,10 +35,14 @@ namespace DefaultNamespace.CommandExecutors
             //{
                 _currentAttack = new AttackOperation(this, _attacker, _target);
                 
-                //HasActiveCommand = true;
                 _calculatedPositions.ObserveOnMainThread().Subscribe(Move).AddTo(this);
                 _calculatedTargets.ObserveOnMainThread().Subscribe(DoAttack).AddTo(this);
             //}
+        }
+
+        private void Start()
+        {
+            _isStatic = _navMeshAgent == null;
         }
 
         private void Update()
@@ -52,7 +57,6 @@ namespace DefaultNamespace.CommandExecutors
                 if (_target == null || _target.IsDead())
                 {
                     _currentAttack = null;
-                    //HasActiveCommand = false;
                     return;
                 }
 
@@ -63,16 +67,22 @@ namespace DefaultNamespace.CommandExecutors
         
         private void Move(Vector3 to)
         {
-            _navMeshAgent.SetDestination(to);
+            if (!_isStatic)
+            {
+                _navMeshAgent.SetDestination(to);
+            }
         }
 
         private void DoAttack(IAttackable target)
         {
-            if (_navMeshAgent.enabled && gameObject.activeSelf)
+            if (!_isStatic)
             {
-                _navMeshAgent.ResetPath();
+                if (_navMeshAgent.enabled && gameObject.activeSelf)
+                {
+                    _navMeshAgent.ResetPath();
+                }
             }
-            
+
             target?.TakeDamage(_attacker.AttackDamage);
         }
 

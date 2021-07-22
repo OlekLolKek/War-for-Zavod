@@ -1,8 +1,6 @@
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Abstractions;
 using UnityEngine;
 
 
@@ -12,27 +10,37 @@ namespace Core.Behaviours
     {
         private void Update()
         {
-            Parallel.ForEach(UnitsManager.Instance.Units, AutoAttackNearestTarget);
+            Parallel.ForEach(UnitsManager.Instance.Attackers, AutoAttackNearestTarget);
         }
 
-        private void AutoAttackNearestTarget(BaseUnit unit)
+        private void AutoAttackNearestTarget(IAttacker attacker)
         {
-            if (!unit.CanPerformAutoAttack())
+            if (!attacker.CanPerformAutoAttack())
             {
                 return;
             }
 
-            var closestEnemy = UnitsManager.Instance.Units
-                .Where(other => 
-                    other.Team != unit.Team && 
-                    (other.Position - unit.Position).magnitude <= unit.VisionRange)
-                .OrderBy(other => 
-                    (other.Position - unit.Position).sqrMagnitude)
-                .FirstOrDefault();
-
-            if (closestEnemy != null)
+            IAttackable closestAttackable = null;
+            float closestDistance = float.MaxValue;
+            
+            foreach (var attackable in UnitsManager.Instance.Attackables)
             {
-                unit.AttackTarget(closestEnemy);
+                if (attackable.Team != attacker.Team)
+                {
+                    if ((attackable.Position - attacker.Position).magnitude <= attacker.VisionRange)
+                    {
+                        if ((attackable.Position - attacker.Position).magnitude < closestDistance)
+                        {
+                            closestDistance = (attackable.Position - attacker.Position).magnitude;
+                            closestAttackable = attackable;
+                        }
+                    }
+                }
+            }
+        
+            if (closestAttackable != null)
+            {
+                attacker.AttackTarget(closestAttackable);
             }
         }
     }
