@@ -11,5 +11,6 @@ namespace Abstractions
         Vector3 Position { get; }
 
         void AttackTarget(IAttackable target);
+        bool CanPerformAutoAttack();
     }
 }

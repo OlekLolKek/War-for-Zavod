@@ -10,7 +10,6 @@ namespace Core
 {
     public class UnitsManager : MonoBehaviour
     {
-        //TODO: change to BaseUnit
         public ConcurrentBag<BaseUnit> Units { get; private set; }
         
         public static UnitsManager Instance { get; private set; }

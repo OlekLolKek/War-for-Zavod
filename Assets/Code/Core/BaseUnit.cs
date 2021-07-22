@@ -18,13 +18,13 @@ namespace Core
         [SerializeField] private float _maxHealth;
         [SerializeField] private float _health;
         
-        protected ReactiveProperty<float> _reactiveHealth;
-        protected AttackCommandExecutor _attackCommandExecutor;
-        protected MoveCommandExecutor _moveCommandExecutor;
-        protected Vector3 _position;
-        protected bool _canPerformAutoAttack;
+        private ReactiveProperty<float> _reactiveHealth;
+        private AttackCommandExecutor _attackCommandExecutor;
+        private MoveCommandExecutor _moveCommandExecutor;
+        private Vector3 _position;
+        private bool _canPerformAutoAttack;
         
-        protected readonly Subject<AttackCommand> _nextAutoAttack = new Subject<AttackCommand>();
+        private readonly Subject<AttackCommand> _nextAutoAttack = new Subject<AttackCommand>();
 
         #endregion
         

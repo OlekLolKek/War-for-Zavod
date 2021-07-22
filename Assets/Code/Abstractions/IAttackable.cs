@@ -7,10 +7,11 @@ namespace Abstractions
     public interface IAttackable
     {
         Action<ISelectableItem> OnDied { get; set; }
-        IObservable<float> Health { get; }
         Vector3 Position { get; }
-
-        bool IsDead();
+        IObservable<float> Health { get; }
+        float MaxHealth { get; }
+        
         void TakeDamage(float damage);
+        bool IsDead();
     }
 }

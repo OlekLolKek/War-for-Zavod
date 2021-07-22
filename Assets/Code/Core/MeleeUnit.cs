@@ -1,10 +1,3 @@
-using System;
-using Abstractions;
-using DefaultNamespace.CommandExecutors;
-using UniRx;
-using UnityEngine;
-
-
 namespace Core
 {
     public class MeleeUnit : BaseUnit

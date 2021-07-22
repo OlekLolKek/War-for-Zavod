@@ -44,7 +44,7 @@ namespace InputSystem.UI.Presenter
             _view.transform.parent.gameObject.SetActive(true);
             _view.Icon = _model.Value.Icon;
             _view.Name = _model.Value.Name;
-            
+
             _healthUpdater = _model.Value.Health.Subscribe(currentHealth =>
             {
                 _view.HealthPercent = currentHealth / _model.Value.MaxHealth;
