@@ -22,7 +22,6 @@ namespace InputSystem.UI.Model
         {
             return new ValueChangedNotifier(this);
         }
-        
 
         public Task<T> GetNextValue()
         {
