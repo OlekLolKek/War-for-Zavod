@@ -1,24 +1,26 @@
+using System;
 using JetBrains.Annotations;
 using UnityEngine;
 using Utils;
+using Zenject;
 
 
 namespace Abstractions
 {
+    public class CommandFactory<T> : PlaceholderFactory<T> where T : ICommand
+    {
+    }
+
     public class ProduceUnitCommand : IProduceUnitCommand
     {
         [UsedImplicitly] [InjectAsset("TestUnitPrefab")] private GameObject _unitPrefab;
+        [Inject (Id = "TestUnitPrice")] public int UnitPrice { get; }
+        [Inject (Id = "TestUnitProductionTime")] public int ProductionTime { get; }
+        [Inject (Id = "TestUnitName")] public string UnitName { get; }
+        public Sprite UnitIcon { get; }
         public GameObject UnitPrefab => _unitPrefab;
     }
-
-    public class ProduceUnitCommandHeir : ProduceUnitCommand
-    {
-    }
     
-    public class ProduceUnitCommandTestHeir : ProduceUnitCommandHeir
-    {
-    }
-
     public class MoveCommand : IMoveCommand
     {
         public Vector3 To { get; }
@@ -31,14 +33,12 @@ namespace Abstractions
     
     public class AttackCommand : IAttackCommand
     {
-        //TODO: change ISelectableItem to IDamageable or something
-        
-        public AttackCommand(ISelectableItem value)
+        public AttackCommand(IAttackable value)
         {
             Target = value;
         }
 
-        public ISelectableItem Target { get; }
+        public IAttackable Target { get; }
     }
     
     public class PatrolCommand : IPatrolCommand

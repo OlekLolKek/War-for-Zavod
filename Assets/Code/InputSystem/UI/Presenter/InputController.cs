@@ -1,7 +1,9 @@
 using Abstractions;
 using InputSystem.UI.Model;
+using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Zenject;
 
 
 namespace InputSystem.UI.Presenter
@@ -12,38 +14,55 @@ namespace InputSystem.UI.Presenter
         [SerializeField] private EventSystem _eventSystem;
         [SerializeField] private SelectedItemModel _currentSelected;
         [SerializeField] private GroundClickModel _groundClickModel;
+        [SerializeField] private AttackableTargetModel _target;
 
-        public void Update()
+        private void Start()
         {
-            if (_eventSystem.IsPointerOverGameObject())
+            var leftClickStream = Observable.EveryUpdate()
+                    .Where(_ => !_eventSystem.IsPointerOverGameObject() && Input.GetMouseButtonDown(0));
+            leftClickStream.Subscribe(onNext => SelectableRaycast());
+
+            var rightClickStream = Observable.EveryUpdate()
+                .Where(_ => !_eventSystem.IsPointerOverGameObject() && Input.GetMouseButtonDown(1));
+            rightClickStream.Subscribe(onNext => AttackRaycast());
+        }
+
+        private void SelectableRaycast()
+        {
+            if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out var hitInfo))
             {
-                return;
-            }
-            
-            if (Input.GetMouseButtonDown(0))
-            {
-                if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out var hitInfo))
+                var selectableItem = hitInfo.collider.gameObject.GetComponent<ISelectableItem>();
+                if (selectableItem != null)
                 {
-                    var selectableItem = hitInfo.collider.gameObject.GetComponent<ISelectableItem>();
-                    if (selectableItem != null)
-                    {
-                        _currentSelected.SetValue(selectableItem);
-                    }
-                    else
-                    {
-                        _currentSelected.SetValue(null);
-                        _groundClickModel.SetValue(hitInfo.point);
-                    }
+                    _currentSelected.SetValue(selectableItem);
+                }
+                else
+                {
+                    _groundClickModel.SetValue(hitInfo.point);
+                    _currentSelected.SetValue(null);
                 }
             }
+        }
 
-            // if (Input.GetMouseButtonDown(1))
-            // {
-            //     if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out var hitInfo))
-            //     {
-            //         _groundClickModel.SetValue(hitInfo.point);
-            //     }
-            // }
+        private void AttackRaycast()
+        {
+            if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out var hitInfo))
+            {
+                var selectable = hitInfo.collider.gameObject.GetComponent<ISelectableItem>();
+                var attackable = hitInfo.collider.gameObject.GetComponent<IAttackable>();
+                
+                if (selectable != null)
+                {
+                    if (attackable != null)
+                    {
+                        _target.SetValue(attackable);
+                    }
+                }
+                else
+                {
+                    _groundClickModel.SetValue(hitInfo.point);
+                }
+            }
         }
     }
 }

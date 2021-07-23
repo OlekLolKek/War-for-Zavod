@@ -4,6 +4,7 @@ using System.Linq;
 using Abstractions;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 
 namespace InputSystem.UI.View

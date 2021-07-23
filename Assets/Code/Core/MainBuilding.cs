@@ -1,22 +1,36 @@
+using System;
 using Abstractions;
+using UniRx;
 using UnityEngine;
 
 
 namespace Core
 {
-    public class MainBuilding : MonoBehaviour, ISelectableItem
+    public class MainBuilding : BaseBuilding, IAttackable
     {
-        [SerializeField] private Sprite _icon;
-        [SerializeField] private Vector3 _selectionCircleOffset;
-        [SerializeField] private string _name;
-        [SerializeField] private float _maxHealth;
-        [SerializeField] private float _health;
+        public Action<ISelectableItem> OnDied { get; set; }
+        public Vector3 Position { get; }
+        
+        protected void Start()
+        {
+            UnitsManager.Instance.RegisterAttackable(this);
+        }
+        
+        public void TakeDamage(float damage)
+        {
+            _reactiveHealth.Value -= damage;
 
-        public Sprite Icon => _icon;
-        public Transform SelectionParentTransform => transform;
-        public Vector3 SelectionCircleOffset => _selectionCircleOffset;
-        public string Name => _name;
-        public float MaxHealth => _maxHealth;
-        public float Health => _health;
+            if (_reactiveHealth.Value <= 0.0f)
+            {
+                UnitsManager.Instance.UnregisterAttackable(this);
+                _reactiveHealth.Value = 0;
+                OnDied?.Invoke(this);
+            }
+        }
+        
+        public bool IsDead()
+        {
+            return _reactiveHealth.Value <= 0.0f;
+        }
     }
 }

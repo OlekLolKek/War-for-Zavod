@@ -12,13 +12,13 @@ GameObject:
   - component: {fileID: 8984757391562854975}
   - component: {fileID: 2711842718495500486}
   - component: {fileID: 6647401118490778372}
+  - component: {fileID: -3936520930414883976}
   - component: {fileID: 54198298021937201}
   - component: {fileID: 3694126670785197302}
   - component: {fileID: 142615981681014308}
   - component: {fileID: 5297550959515537429}
   - component: {fileID: 182360534494807431}
   - component: {fileID: 6000127814980514341}
-  - component: {fileID: -3936520930414883976}
   m_Layer: 0
   m_Name: TestUnitPrefab
   m_TagString: Untagged
@@ -102,6 +102,28 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!195 &-3936520930414883976
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426762781393767029}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.6
+  m_Speed: 3.5
+  m_Acceleration: 10
+  avoidancePriority: 50
+  m_AngularSpeed: 360
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0.5
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!114 &54198298021937201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,6 +136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a502fd96e2084f24ba95840e40ca1711, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _team: 1
   _icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   _selectionCircleOffset: {x: 0, y: 0.1, z: 0}
   _name: Scav
@@ -131,6 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 386cf275377c4daaa2f9ef2e9a3cce78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _navMeshAgent: {fileID: -3936520930414883976}
 --- !u!114 &142615981681014308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,6 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _agent: {fileID: -3936520930414883976}
+  _remainingDistanceThreshold: 0.75
 --- !u!114 &5297550959515537429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,25 +210,3 @@ MonoBehaviour:
   _renderers:
   - {fileID: 2711842718495500486}
   _outlineMaterial: {fileID: 2100000, guid: d7dfc579f89922841a68bdb4f1ccd279, type: 2}
---- !u!195 &-3936520930414883976
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1426762781393767029}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 10
-  avoidancePriority: 50
-  m_AngularSpeed: 270
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 1
-  m_BaseOffset: 0.5
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
