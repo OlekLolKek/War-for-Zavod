@@ -31,19 +31,11 @@ namespace InputSystem.UI.Presenter
                     }
                     else
                     {
-                        _currentSelected.SetValue(null);
                         _groundClickModel.SetValue(hitInfo.point);
+                        _currentSelected.SetValue(null);
                     }
                 }
             }
-
-            // if (Input.GetMouseButtonDown(1))
-            // {
-            //     if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition), out var hitInfo))
-            //     {
-            //         _groundClickModel.SetValue(hitInfo.point);
-            //     }
-            // }
         }
     }
 }
