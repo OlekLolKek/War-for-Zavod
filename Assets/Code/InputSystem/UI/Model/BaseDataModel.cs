@@ -13,7 +13,6 @@ namespace InputSystem.UI.Model
         {
             get
             {
-                Debug.Log(_value);
                 return _value;
             }
         }

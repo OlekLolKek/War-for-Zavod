@@ -27,7 +27,6 @@ namespace Core
 
         protected void Awake()
         {
-            Debug.Log("Awake in BaseBuilding");
             _reactiveHealth = new ReactiveProperty<float>(_health);
         }
         

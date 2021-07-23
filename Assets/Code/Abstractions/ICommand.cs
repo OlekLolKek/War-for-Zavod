@@ -33,6 +33,7 @@ namespace Abstractions
     public interface IProduceUnitCommand : ICommand
     {
         int ProductionTime { get; }
+        int UnitPrice { get; }
         string UnitName { get; }
         Sprite UnitIcon { get; }
         GameObject UnitPrefab { get; }

@@ -11,12 +11,12 @@ namespace Core
     [UsedImplicitly]
     public class TimeModel : ITimeModel, ITickable
     {
-        public IObservable<int> GameTime => _gameTime.Select(value => (int)value);
+        public IObservable<int> GameTime =>
+            _gameTime.Select(value => (int)value);
 
-        private readonly ReactiveProperty<float> _gameTime = new ReactiveProperty<float>();
-
-        private bool _isPaused;
-
+        private readonly ReactiveProperty<float> _gameTime
+            = new ReactiveProperty<float>();
+        
         private readonly float _normalTimeScale = 1.0f;
         private readonly float _pausedTimeScale = 0.0f;
         

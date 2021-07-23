@@ -14,6 +14,7 @@ namespace Abstractions
     public class ProduceUnitCommand : IProduceUnitCommand
     {
         [UsedImplicitly] [InjectAsset("TestUnitPrefab")] private GameObject _unitPrefab;
+        [Inject (Id = "TestUnitPrice")] public int UnitPrice { get; }
         [Inject (Id = "TestUnitProductionTime")] public int ProductionTime { get; }
         [Inject (Id = "TestUnitName")] public string UnitName { get; }
         public Sprite UnitIcon { get; }

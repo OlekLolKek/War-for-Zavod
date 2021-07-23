@@ -24,8 +24,9 @@ namespace InputSystem.UI.Model
             Container.BindFactory<IProduceUnitCommand, CommandFactory<IProduceUnitCommand>>().To<ProduceUnitCommand>();
             
             Container.Bind<int>().WithId("TestUnitProductionTime").FromInstance(3);
+            Container.Bind<int>().WithId("TestUnitPrice").FromInstance(10);
             Container.Bind<string>().WithId("TestUnitName").FromInstance("Test Unit");
-            
+
             _dummyTarget.SetValue(GameObject.FindWithTag("DummyTarget").GetComponent<IAttackable>());
             Container.Bind<IAwaitable<IAttackable>>().FromInstance(_dummyTarget).AsSingle();
         }

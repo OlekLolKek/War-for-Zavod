@@ -20,7 +20,8 @@ namespace DefaultNamespace.CommandExecutors
             new ReactiveCollection<IProductionTask>();
         
         [SerializeField] private Transform _assemblyPoint;
-        
+
+        [Inject] private CoinModel _coinModel;
         private ISelectableItem _thisSelectableItem;
 
         private void Awake()
@@ -30,10 +31,13 @@ namespace DefaultNamespace.CommandExecutors
 
         protected override void ExecuteSpecificCommand(IProduceUnitCommand command)
         {
-            var newTask =
-                new ProductionTask(command.ProductionTime, command.UnitName,
-                    command.UnitIcon, command.UnitPrefab);
-            _productionQueue.Add(newTask);
+            if (_coinModel.TryBuyItem(command.UnitPrice))
+            {
+                var newTask =
+                    new ProductionTask(command.ProductionTime, command.UnitName,
+                        command.UnitIcon, command.UnitPrefab);
+                _productionQueue.Add(newTask);
+            }
         }
 
         private void CreateUnit(ProductionTask task)
